@@ -1,0 +1,37 @@
+[
+    {
+        "marca": "toyota",
+        "modelo": "onix",
+        "año": "202",
+        "precio": "2000000000",
+        "tipo_motor": "v2"
+    },
+    {
+        "marca": "toyota",
+        "modelo": "fdsdf",
+        "año": "20203",
+        "precio": "3041324",
+        "tipo_motor": "mf"
+    },
+    {
+        "marca": "´póp",
+        "modelo": "eqew",
+        "año": "ffdsf",
+        "precio": "vbcbvb",
+        "tipo_motor": "kjhk"
+    },
+    {
+        "marca": "",
+        "modelo": "",
+        "año": "",
+        "precio": "",
+        "tipo_motor": ""
+    },
+    {
+        "marca": "puto",
+        "modelo": "maraca",
+        "año": "1",
+        "precio": "0",
+        "tipo_motor": "v8"
+    }
+]
