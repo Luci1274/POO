@@ -1,3 +1,10 @@
 [
-
+    {
+        "nombre": "ezequiel",
+        "nombre_usuario": "eze",
+        "contrase\u00f1a": "1274",
+        "veces_ingresadas": 0,
+        "cantidad_paginas_visitadas": 0,
+        "ultima_pagina_visitada": ""
+    }
 ]

@@ -40,13 +40,17 @@ def traducir_texto(texto, origen="en", destino="es"):
     else:
         return "Error en la traducción."
 
-
-# Ejemplo de uso
-if __name__ == "__main__":
-    chiste = obtener_chiste()
-    print("Chiste en inglés:")
-    print(chiste)
-
-    traduccion = traducir_texto(chiste, origen="en", destino="es")
-    print("\nChiste traducido al español:")
-    print(traduccion)
+def traducir_chiste():
+    print("Desea traducir el chiste? S/N")
+    respuesta = input("").strip().upper()
+    if respuesta == "N":
+        chiste = obtener_chiste()
+        print(chiste)
+    elif respuesta == "S":
+        chiste = obtener_chiste()
+        traduccion = traducir_texto(chiste, origen="en", destino="es")
+        print("\nChiste traducido al español:")
+        print(traduccion)
+    else:
+        print("Opcion incorrecta")
+        input("Presione enter para continuar")

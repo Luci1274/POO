@@ -21,13 +21,14 @@ class GestorDatos:
             with open(self.archivo_admins, 'w') as f:
                 json.dump([], f)
 
-    def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, cantidad_paginas_visitadas=0):
+    def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, cantidad_paginas_visitadas=0, ultima_pagina_visitada = ""):
         nuevo_usuario = {
             "nombre": nombre,
             "nombre_usuario": nombre_usuario,
             "contraseña": contraseña,
             "veces_ingresadas": veces_ingresadas,
-            "cantidad_paginas_visitadas": cantidad_paginas_visitadas
+            "cantidad_paginas_visitadas": cantidad_paginas_visitadas,
+            "ultima_pagina_visitada": ultima_pagina_visitada
         }
         try:
             with open(self.archivo_usuarios, 'r+', encoding='utf-8') as f:
@@ -63,7 +64,7 @@ class GestorDatos:
         except Exception as e:
             print(f"❌ Error al agregar el administrador: {e}")
 
-    def actualizar_usuario(self, nombre_usuario, nuevas_visitas=0, nuevas_paginas=0):
+    def actualizar_usuario(self, nombre_usuario, nuevas_visitas, nuevas_paginas, ultima_pagina_visitada):
         try:
             with open(self.archivo_usuarios, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
@@ -73,6 +74,7 @@ class GestorDatos:
                     if usuario["nombre_usuario"] == nombre_usuario:
                         usuario["veces_ingresadas"] += nuevas_visitas
                         usuario["cantidad_paginas_visitadas"] += nuevas_paginas
+                        usuario["ultima_pagina_visitada"] = ultima_pagina_visitada
                         usuario_encontrado = True
                         break
 

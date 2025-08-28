@@ -1,71 +1,66 @@
-from clear import clear
-from apis.dog_api import dog_api, abrir_buscador
-from apis.joke_api import obtener_chiste, traducir_texto
-from apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue
+import os
+import platform
+from modulos.apis.dog_api import abrir_imagen
+from modulos.apis.joke_api import traducir_chiste
+from modulos.apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue
+from tabulate import tabulate
+
+def clear():
+    sistema = platform.system()
+    if sistema == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
+
+    print("-" * 50)
 
 def mostrar_opciones():
     print("Bienvenido a pruebas api, Por favor vea las opciones")
-    print("1. Fotos de perros\n","2. chistes\n","3. Dolar\n" ,"4. cerrar sesion")
+    ver_opciones_menu = [["1. Fotos de perros"],["2. chistes"],["3. Dolar"] ,["4. cerrar sesion"]]
+    print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
+    return ver_opciones_menu
 
 def elegir_opcion():
     opcion = input("Ingrese la opcion deseada: ")
     return opcion
 
 def verificar_opcion(opcion):
-    while True:
-        if opcion == "1":
-            image_url = dog_api()
-            abrir_imagen(image_url)
-            input("Presione enter para continuar")
-            break
-        
-        elif opcion == "2":
-            traducir_chiste()
-            input("Presione enter para continuar")
-            break
-        
-        elif opcion == "3":
-            menu_dolar()
-            break
-
-        elif opcion == "4":
-            print("Gracias por participar en esta prueba")
-            exit()
-        
-        else:
-            print("Opcion incorrecta intente nuevamente")
-            input("Presione enter para continuar")
-
-def abrir_imagen(image_url):
-    print("Desea abrir la imagen en el buscador? S/N")
-    opcion = input("").strip().upper()
-    if opcion == "S":
-        abrir_buscador(image_url)
-    else:
-        print("Ah decidido no hacerlo")
-
-def traducir_chiste():
     clear()
-    print("Desea traducir el chiste? S/N")
-    respuesta = input("").strip().upper()
-    if respuesta == "S":
-        chiste = obtener_chiste()
-        print(chiste)
-    elif respuesta == "N":
-        chiste = obtener_chiste()
-        traduccion = traducir_texto(chiste, origen="en", destino="es")
-        print("\nChiste traducido al español:")
-        print(traduccion)
+    if opcion == "1":
+        abrir_imagen()
+        input("Presione enter para continuar")
+        ultima_pagina_visitada = "Api perros"
+        return ultima_pagina_visitada
+    elif opcion == "2":
+        traducir_chiste()
+        input("Presione enter para continuar") 
+        ultima_pagina_visitada = "Api chistes"
+        return ultima_pagina_visitada   
+    elif opcion == "3":
+        menu_dolar()
+        ultima_pagina_visitada = "Api dolar"
+        return ultima_pagina_visitada
+    elif opcion == "4":
+        print("Gracias por participar en esta prueba")
+        ultima_pagina_visitada = "salir"
+        return ultima_pagina_visitada
     else:
-        print("Opcion incorrecta")
+        print("Opcion incorrecta intente nuevamente")
         input("Presione enter para continuar")
 
 def menu():
+    nuevo_ingreso = 1
+    paginas_visitadas = 0
     while True:
         clear()
-        mostrar_opciones()
+        ver_opciones_menu = mostrar_opciones()
         opcion = elegir_opcion()
-        verificar_opcion(opcion)
+        ultima_pagina_visitada = verificar_opcion(opcion)
+        if  ultima_pagina_visitada != "salir":
+            paginas_visitadas += 1
+            continue
+        else:
+            return nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada
 
 def menu_dolar():
     clear()
@@ -76,7 +71,8 @@ def menu_dolar():
 
 def mostrar_opciones_dolar():
     print("Ingrese una de estas opciones: ")
-    print("1. Dolar oficial\n","2. Dolar tarjeta\n","3. Dolar Blue\n" ,"4. salir")
+    ver_opciones_dolar = [["1. Dolar oficial"],["2. Dolar tarjeta"],["3. Dolar Blue"] ,["4. Regresar"]]
+    print(tabulate(ver_opciones_dolar,tablefmt="fancy_grid"))
 
 def elegir_opcion_dolar():
     opcion_dolar = input("Ingrese el numero de una de las opcines: ")
@@ -84,6 +80,7 @@ def elegir_opcion_dolar():
 
 def verificar_opcion_dolar(opcion_dolar):
     while True:
+        clear()
         if opcion_dolar == "1":
             dolar_oficial = Dolar_oficial()
             dolar_oficial.mostrar_info()
@@ -109,5 +106,3 @@ def verificar_opcion_dolar(opcion_dolar):
         else:
             print("Opcion incorrecta intente nuevamente")
             input("Presione enter para continuar")
-
-menu()

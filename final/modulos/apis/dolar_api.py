@@ -26,7 +26,7 @@ class Dolar_api:
     def mostrar_info(self):
         self.obtener_datos()
         mostrar = [["Dolar:", self.nombre], ["Moneda:", self.moneda], ["Compra:", self.compra], ["Venta:", self.venta]]
-        print(tabulate(mostrar))
+        print(tabulate(mostrar,tablefmt="fancy_grid"))
 
 class Dolar_oficial(Dolar_api):
     def __init__(self, url="https://dolarapi.com/v1/dolares/oficial"):
@@ -61,6 +61,3 @@ class Dolar_blue(Dolar_api):
         
     def mostrar_info(self):
         super().mostrar_info()
-
-g = Dolar_blue()
-g.mostrar_info()
