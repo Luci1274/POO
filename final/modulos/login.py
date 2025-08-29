@@ -17,30 +17,34 @@ class Login:
         self.gestor = GestorDatos()
     
     def ingresar_usuario(self):
+        intentos = 3
         fallos = 0
         while True:
             clear()
             print("Para iniciar sesion por favor ingrese el nombre de usuario y contraseña")
+            print(f"Tienes {intentos} intentos")
             nombre_usuario = input("Nombre de usuario: ").strip()
             contraseña = input("Contraseña: ").strip()
-            if len(nombre_usuario) == 0 or len(contraseña) == 0:
-                print("Por favor rellene los campos")
+            if self.verificar_admin(nombre_usuario, contraseña) == True: 
+                print("Inicio exitoso bienvenido señor")
                 input("Presione enter para continuar")
-                continue
+                tipo = "administrador"
+                return nombre_usuario,tipo
             elif self.verificar_usuario(nombre_usuario, contraseña) == True: 
                 print("Inicio exitoso")
                 usuario = Usuario(nombre_usuario, contraseña)
-                return nombre_usuario, False
-            elif self.verificar_admin(nombre_usuario, contraseña) == True: 
-                print("Inicio exitoso bienvenido señor")
-                input("Presione enter para continuar")
-                return True
+                tipo = "usuario"
+                return nombre_usuario,tipo
             else:
                 print("Usuario o contraseña inocrrecta, por favor intente nuevamente")
                 input("Presione enter para continuar")
                 fallos += 1
-                if fallos == 3:
+                intentos -= 1
+                if fallos == 2:
                     print("Demasiados fallos, volviendo al menu")
+                    nombre_usuario = None
+                    tipo = None
+                    break
                 else:
                     continue
             
@@ -56,25 +60,24 @@ class Login:
         return respuesta
 
     def registrar_usuario(self):
+        intentos = 3
         fallos = 0
         while True:
             clear()
             print("Por favor llene los siguientes espacios para crear un usuario")
+            print(f"Tienes {intentos} intentos")
             nombre = input("Nombre de real: ").strip()
             nombre_usuario = input("Nombre de usuario: ")
             contraseña = input("Contraseña: ").strip()
-            if len(nombre_usuario) == 0 or len(contraseña) == 0 or len(nombre) == 0:
-                print("Por favor rellene los campos")
-                input("Presione enter para continuar")
-                continue
-            elif self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña) == True:
+            if self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña) == True:
                 self.usuario = Usuario(nombre_usuario, contraseña)
                 input("Presione enter para continuar")
                 return 
             else:
                 fallos += 1
+                intentos -= 1
                 input("Presione enter para continuar")
-                if fallos == 3:
+                if fallos == 2:
                     print("Demasiados fallos, saliendo del registro")
                     break
                 else:
@@ -101,20 +104,25 @@ def elegir_opcion_login():
 
 def verificar_opcion(elegir):
     if elegir == "1":
-        login.ingresar_usuario()
-        input("Presione enter para continuar")
+        resultado = login.ingresar_usuario()
+        if resultado != None:
+            input("Presione enter para continuar")
+            return resultado
+        else:
+            return None
         
     elif elegir == "2":
         if login.registrar_usuario() == True:
             print("Inicio exitoso")      
             input("Presione enter para continuar")
-        return
+        return None
     elif elegir == "3":
         print("Finalizando programa...")
         input("Presione enter para continuar")
         sys.exit(0)
     else:
         print("Opcion invalida, por favor ingrese una valida")
+        return None
 
 
 def menu_login():
@@ -122,7 +130,8 @@ def menu_login():
         clear()
         opciones_menu_login()
         elegir = elegir_opcion_login()
-        if verificar_opcion(elegir) == True:
-            break
+        resultado = verificar_opcion(elegir)
+        if resultado != None:
+            return resultado
         else:
             continue

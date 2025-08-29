@@ -1,0 +1,31 @@
+import os
+from PIL import Image
+
+# Ruta base donde se guardarán las imágenes
+ruta_base = r"D:\insti\Escuela\Base_de_datos\foto_comida"
+
+# Lista de nombres de helados
+nombres = [
+    "helado_de_chocolate",
+    "helado_de_vainilla",
+    "helado_de_dulce_de_leche",
+    "helado_de_frutilla_a_la_crema",
+    "helado_de_sambayon",
+    "helado_de_limon",
+    "helado_de_naranja",
+    "helado_de_frutilla_al_agua",
+    "helado_de_anana",
+    "helado_de_chocolate_light",
+    "helado_de_vainilla_light",
+    "helado_de_frutilla_sin_azucar"
+]
+
+# Crear la carpeta si no existe
+os.makedirs(ruta_base, exist_ok=True)
+
+# Crear imágenes vacías
+for nombre in nombres:
+    ruta_completa = os.path.join(ruta_base, f"{nombre}.jpg")
+    imagen = Image.new("RGB", (500, 500), color="white")  # Fondo blanco
+    imagen.save(ruta_completa)
+    print(f"Imagen creada: {ruta_completa}")
