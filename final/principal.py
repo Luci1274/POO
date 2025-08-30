@@ -6,8 +6,12 @@ gestos_datos = GestorDatos()
 
 while True:
     nombre_usuario, tipo = menu_login()
-    if tipo != "admin":
+    if tipo != "administrador":
         nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada = menu()
-        gestos_datos.actualizar_usuario(nombre_usuario, nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada)
+        if ultima_pagina_visitada == None or ultima_pagina_visitada == True:
+            ultima_pagina_visitada = "ninguna"
+            gestos_datos.actualizar_usuario(nombre_usuario, nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada)
+        else:
+            gestos_datos.actualizar_usuario(nombre_usuario, nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada)
     else:
         "menu_admin()"

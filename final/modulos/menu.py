@@ -42,25 +42,31 @@ def verificar_opcion(opcion):
         return ultima_pagina_visitada
     elif opcion == "4":
         print("Gracias por participar en esta prueba")
-        ultima_pagina_visitada = "salir"
-        return ultima_pagina_visitada
+        return None
     else:
         print("Opcion incorrecta intente nuevamente")
         input("Presione enter para continuar")
+        return True
 
 def menu():
     nuevo_ingreso = 1
     paginas_visitadas = 0
+    paginas = []
     while True:
         clear()
         ver_opciones_menu = mostrar_opciones()
         opcion = elegir_opcion()
-        ultima_pagina_visitada = verificar_opcion(opcion)
-        if  ultima_pagina_visitada != "salir":
+        pagina = verificar_opcion(opcion)
+        paginas.append(pagina)
+        if  len(paginas) == 1 and paginas[0] == None:
+            ultima_pagina_visitada = paginas[0]
+            return nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada
+        elif len(paginas) != 1 and paginas[-1] == None:
+            ultima_pagina_visitada = paginas[-2]
+            return nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada
+        else:
             paginas_visitadas += 1
             continue
-        else:
-            return nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada
 
 def menu_dolar():
     clear()

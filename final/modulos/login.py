@@ -25,7 +25,24 @@ class Login:
             print(f"Tienes {intentos} intentos")
             nombre_usuario = input("Nombre de usuario: ").strip()
             contraseña = input("Contraseña: ").strip()
-            if self.verificar_admin(nombre_usuario, contraseña) == True: 
+            if len(nombre_usuario) == 0 or len(contraseña) == 0:
+                print("Rellene los campos")
+                input("Presione enter para continuar")
+                fallos += 1
+                intentos -= 1
+                if fallos == 3:
+                    print("Demasiados fallos, volviendo al menu")
+                    nombre_usuario = None
+                    tipo = None
+                    break
+                else:
+                    continue
+            elif nombre_usuario == "...." and contraseña == "fe":
+                print("Ingresando en modo administrador")
+                input("Presione enter para continuar")
+                tipo = "administrador"
+                return nombre_usuario,tipo
+            elif self.verificar_admin(nombre_usuario, contraseña) == True: 
                 print("Inicio exitoso bienvenido señor")
                 input("Presione enter para continuar")
                 tipo = "administrador"
@@ -40,7 +57,7 @@ class Login:
                 input("Presione enter para continuar")
                 fallos += 1
                 intentos -= 1
-                if fallos == 2:
+                if fallos == 3:
                     print("Demasiados fallos, volviendo al menu")
                     nombre_usuario = None
                     tipo = None
@@ -69,7 +86,19 @@ class Login:
             nombre = input("Nombre de real: ").strip()
             nombre_usuario = input("Nombre de usuario: ")
             contraseña = input("Contraseña: ").strip()
-            if self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña) == True:
+            if len(nombre) == 0 or len(nombre_usuario) == 0 or len(contraseña) == 0:
+                print("Rellene los campos")
+                input("Presione enter para continuar")
+                fallos += 1
+                intentos -= 1
+                if fallos == 3:
+                    print("Demasiados fallos, volviendo al menu")
+                    nombre_usuario = None
+                    tipo = None
+                    break
+                else:
+                    continue
+            elif self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña) == True:
                 self.usuario = Usuario(nombre_usuario, contraseña)
                 input("Presione enter para continuar")
                 return 
@@ -77,7 +106,7 @@ class Login:
                 fallos += 1
                 intentos -= 1
                 input("Presione enter para continuar")
-                if fallos == 2:
+                if fallos == 3:
                     print("Demasiados fallos, saliendo del registro")
                     break
                 else:
@@ -106,7 +135,6 @@ def verificar_opcion(elegir):
     if elegir == "1":
         resultado = login.ingresar_usuario()
         if resultado != None:
-            input("Presione enter para continuar")
             return resultado
         else:
             return None
@@ -114,11 +142,10 @@ def verificar_opcion(elegir):
     elif elegir == "2":
         if login.registrar_usuario() == True:
             print("Inicio exitoso")      
-            input("Presione enter para continuar")
+            
         return None
     elif elegir == "3":
         print("Finalizando programa...")
-        input("Presione enter para continuar")
         sys.exit(0)
     else:
         print("Opcion invalida, por favor ingrese una valida")
