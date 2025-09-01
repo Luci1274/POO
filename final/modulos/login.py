@@ -2,7 +2,7 @@ import sys
 from tabulate import tabulate
 import os
 import platform
-from modulos.manipular_archivos import GestorDatos
+from modulos.manipular_archivos import Gestor_datos
 
 def clear():
     sistema = platform.system()
@@ -14,7 +14,7 @@ def clear():
 
 class Login:
     def __init__(self):
-        self.gestor = GestorDatos()
+        self.gestor = Gestor_datos()
     
     def ingresar_usuario(self):
         intentos = 3

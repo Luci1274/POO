@@ -1,24 +1,24 @@
 import json  # Para manejar archivos JSON
 import os    # Para trabajar con rutas y verificar existencia de archivos
 
-class GestorDatos:
+class Gestor_datos:
     def __init__(self, ruta_base=r'modulos\archivos'):
-        self.ruta_base = ruta_base  # Ruta donde se guardarán los archivos
-        self.archivo_usuarios = os.path.join(self.ruta_base, 'usuarios.json')  # Ruta completa usuarios
-        self.archivo_admins = os.path.join(self.ruta_base, 'administradores.json')  # Ruta completa admins
+        self.__ruta_base = ruta_base  # Ruta donde se guardarán los archivos
+        self.__archivo_usuarios = os.path.join(self.__ruta_base, 'usuarios.json')  # Ruta completa usuarios
+        self.__archivo_admins = os.path.join(self.__ruta_base, 'administradores.json')  # Ruta completa admins
         self.verificar_o_crear_archivos()  # Asegura que los archivos existan
 
     def verificar_o_crear_archivos(self):
-        os.makedirs(self.ruta_base, exist_ok=True)  # Crea la carpeta si no existe
+        os.makedirs(self.__ruta_base, exist_ok=True)  # Crea la carpeta si no existe
 
         # Crea archivo de usuarios si no existe
-        if not os.path.exists(self.archivo_usuarios):
-            with open(self.archivo_usuarios, 'w') as f:
+        if not os.path.exists(self.__archivo_usuarios):
+            with open(self.__archivo_usuarios, 'w') as f:
                 json.dump([], f)
 
         # Crea archivo de administradores si no existe
-        if not os.path.exists(self.archivo_admins):
-            with open(self.archivo_admins, 'w') as f:
+        if not os.path.exists(self.__archivo_admins):
+            with open(self.__archivo_admins, 'w') as f:
                 json.dump([], f)
 
     def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, cantidad_paginas_visitadas=0, ultima_pagina_visitada = ""):
@@ -31,9 +31,9 @@ class GestorDatos:
             "ultima_pagina_visitada": ultima_pagina_visitada
         }
         try:
-            with open(self.archivo_usuarios, 'r+', encoding='utf-8') as f:
+            with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
-                if self.verificar_nombre_usuario(self.archivo_usuarios, nombre_usuario):
+                if self.verificar_nombre_usuario(self.__archivo_usuarios, nombre_usuario):
                     print(f"⚠️ El nombre de usuario '{nombre_usuario}' ya existe. No se agregó.")
                     return False
                 datos.append(nuevo_usuario)
@@ -51,9 +51,9 @@ class GestorDatos:
             "contraseña": contraseña
         }
         try:
-            with open(self.archivo_admins, 'r+', encoding='utf-8') as f:
+            with open(self.__archivo_admins, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
-                if self.verificar_nombre_usuario(self.archivo_admins, nombre_usuario):
+                if self.verificar_nombre_usuario(self.__archivo_admins, nombre_usuario):
                     print(f"⚠️ El administrador '{nombre_usuario}' ya existe. No se agregó.")
                     return
                 datos.append(nuevo_admin)
@@ -66,7 +66,7 @@ class GestorDatos:
 
     def actualizar_usuario(self, nombre_usuario, nuevas_visitas, nuevas_paginas, ultima_pagina_visitada):
         try:
-            with open(self.archivo_usuarios, 'r+', encoding='utf-8') as f:
+            with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
                 usuario_encontrado = False
 
@@ -128,3 +128,68 @@ class GestorDatos:
         except Exception as e:
             print(f"❌ Error al verificar credenciales: {e}")
             return False
+        
+    def obtener_datos_usuarios(self):
+        """
+        Devuelve una lista de listas con los datos de los usuarios,
+        lista que puede ser usada directamente con tabulate.
+        """
+        try:
+            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as f:
+                datos = json.load(f)
+
+                # Si no hay usuarios, devuelve una lista vacía
+                if not datos:
+                    print("⚠️ No hay usuarios registrados.")
+                    return []
+
+                # Extrae los campos relevantes para la tabla
+                tabla = []
+                for usuario in datos:
+                    fila = [
+                        usuario.get("nombre", ""),
+                        usuario.get("nombre_usuario", ""),
+                        usuario.get("veces_ingresadas", 0),
+                        usuario.get("cantidad_paginas_visitadas", 0),
+                        usuario.get("ultima_pagina_visitada", "")
+                    ]
+                    tabla.append(fila)
+
+                return tabla
+
+        except Exception as e:
+            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            return []
+
+    def filtrar_datos_varios(self, campo, valor_buscado):
+        """
+        Devuelve una lista de usuarios donde el campo coincide con el valor buscado.
+        """
+        try:
+            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as f:
+                datos = json.load(f)
+                filtrados = [
+                    d for d in datos
+                    if str(d.get(campo, "")).lower() == str(valor_buscado).lower()
+                ]
+                return filtrados
+        except Exception as e:
+            print(f"❌ Error al filtrar datos: {e}")
+            return []
+
+    def mostrar_valores(self, campo):
+        """
+        Devuelve los valores para que sea mas facil realizar la busqueda
+        """
+        try:
+            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as f:
+                datos = json.load(f)
+                valores = [
+                    d for d in datos
+                    if str(d.get(campo, "")).lower()
+                ]
+                return valores
+        except Exception as e:
+            print(f"❌ Error al filtrar datos: {e}")
+            return []    
+    

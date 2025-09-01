@@ -48,13 +48,13 @@ def verificar_opcion(opcion):
         input("Presione enter para continuar")
         return True
 
-def menu():
+def menu_usuario():
     nuevo_ingreso = 1
     paginas_visitadas = 0
     paginas = []
     while True:
         clear()
-        ver_opciones_menu = mostrar_opciones()
+        mostrar_opciones()
         opcion = elegir_opcion()
         pagina = verificar_opcion(opcion)
         paginas.append(pagina)
