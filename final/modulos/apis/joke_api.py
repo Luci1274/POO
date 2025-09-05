@@ -43,7 +43,7 @@ def traducir_texto(texto, origen="en", destino="es"):
 def traducir_chiste():
     print("Desea traducir el chiste? S/N")
     respuesta = input("").strip().upper()
-    if respuesta != "N":
+    if respuesta != "N" or respuesta == "N":
         chiste = obtener_chiste()
         print(chiste)
     elif respuesta == "S":

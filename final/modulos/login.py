@@ -32,9 +32,7 @@ class Login:
                 intentos -= 1
                 if fallos == 3:
                     print("Demasiados fallos, volviendo al menu")
-                    nombre_usuario = None
-                    tipo = None
-                    break
+                    return None, None
                 else:
                     continue
             elif nombre_usuario == "...." and contraseña == "fe":
@@ -49,9 +47,8 @@ class Login:
                 return nombre_usuario,tipo
             elif self.verificar_usuario(nombre_usuario, contraseña) == True: 
                 print("Inicio exitoso")
-                usuario = Usuario(nombre_usuario, contraseña)
                 tipo = "usuario"
-                return nombre_usuario,tipo
+                return nombre_usuario, tipo
             else:
                 print("Usuario o contraseña inocrrecta, por favor intente nuevamente")
                 input("Presione enter para continuar")
@@ -59,9 +56,7 @@ class Login:
                 intentos -= 1
                 if fallos == 3:
                     print("Demasiados fallos, volviendo al menu")
-                    nombre_usuario = None
-                    tipo = None
-                    break
+                    return None, None
                 else:
                     continue
             
@@ -99,7 +94,6 @@ class Login:
                 else:
                     continue
             elif self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña) == True:
-                self.usuario = Usuario(nombre_usuario, contraseña)
                 input("Presione enter para continuar")
                 return 
             else:
@@ -113,13 +107,6 @@ class Login:
                     continue
 
         
-
-class Usuario:
-    def __init__(self, nombre_usuario, contraseña):
-        self.__contraseña = contraseña
-        self.__nombre_usuario = nombre_usuario
-
-
 login = Login()
 
 def opciones_menu_login():
