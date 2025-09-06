@@ -18,7 +18,7 @@ def mostrar_opciones():
     print("Bienvenido a pruebas api, Por favor vea las opciones")
     ver_opciones_menu = [["1. Fotos de perros"],["2. chistes"],["3. Dolar"] ,["4. cerrar sesion"]]
     print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
-    return ver_opciones_menu
+    return
 
 def elegir_opcion():
     opcion = input("Ingrese la opcion deseada: ")

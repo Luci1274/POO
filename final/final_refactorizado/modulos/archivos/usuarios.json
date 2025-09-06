@@ -1,0 +1,26 @@
+[
+    {
+        "nombre": "ezequiel",
+        "nombre_usuario": "eze",
+        "contrase\u00f1a": "1274",
+        "veces_ingresadas": 15,
+        "cantidad_paginas_visitadas": 23,
+        "ultima_pagina_visitada": "Api chistes"
+    },
+    {
+        "nombre": "federico",
+        "nombre_usuario": "fideo",
+        "contrase\u00f1a": "rojo",
+        "veces_ingresadas": 0,
+        "cantidad_paginas_visitadas": 0,
+        "ultima_pagina_visitada": ""
+    },
+    {
+        "nombre": "micha",
+        "nombre_usuario": "micha04",
+        "contrase\u00f1a": "1234",
+        "veces_ingresadas": 1,
+        "cantidad_paginas_visitadas": 1,
+        "ultima_pagina_visitada": "salir"
+    }
+]
