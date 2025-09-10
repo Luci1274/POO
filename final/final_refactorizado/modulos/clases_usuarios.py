@@ -1,23 +1,30 @@
-from modulos.menus import Menu_login
+from modulos.menus import Menu_usuario
+from modulos.manipular_archivos import Gestor_datos
 
-from typing import Optional
-
-class Persona:
-    def __init__(self):
-        self.__nombre_usuario: Optional[str] = None
-        self.tipo: Optional[str] = None
-        self.menu_login = Menu_login()
-        self.interactuar_login()
-        
-    def interactuar_login(self):
-        resultado = self.menu_login.ejecutar()
-        if resultado is not None:
-            nombre_usuario = resultado[0]
-            self.tipo = resultado[1]
-            self.setter_nombre_usuario(nombre_usuario)
+class Usuario:
+    def __init__(self, nombre_usuario):
+        self.__Nombre_usuario = nombre_usuario
+        self.nuevas_visitas = int("")
+        self.nuevas_paginas = int("")
+        self.ultima_pagina_visitada = ""
+        self.menu = Menu_usuario()
+        self.interactuar_menu()    
+    
     
     def get_nombre_usuario(self):
-        return self.__nombre_usuario
+        return self.__Nombre_usuario
     
-    def setter_nombre_usuario(self, nombre_usuario):
-        self.__nombre_usuario = nombre_usuario
+    def interactuar_menu():
+        datos = self.menu()
+        self.nuevas_visitas = datos[0]
+        self.neuvas_paginas = datos[1]
+        self.ultima_pagina_visitada = datos[2]
+        if self.ultima_pagina_visitada == None or self.ultima_pagina_visitada == True:
+            self.ultima_pagina_visitada = "ninguna"
+        else:
+            pass
+        
+    def actualizar_informacion(self):
+        nombre_usuario = get_nombre_usuario()
+        Gestor_datos().actualizar_usuario(nombre_usuario, self.nuevas_visitas, self.nuevas_paginas, self.ultima_pagina_visitada)
+

@@ -28,7 +28,8 @@ class Gestor_datos:
             "contraseña": contraseña,
             "veces_ingresadas": veces_ingresadas,
             "cantidad_paginas_visitadas": cantidad_paginas_visitadas,
-            "ultima_pagina_visitada": ultima_pagina_visitada
+            "ultima_pagina_visitada": ultima_pagina_visitada,
+            "Borrar_cuenta": "No"
         }
         try:
             with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:

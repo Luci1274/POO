@@ -35,7 +35,7 @@ class Menu_base:
     def verificacion_opcion(self):
         pass
     
-    def ejeutar(self):
+    def ejecutar(self):
         while True:
             self.clear
             self.opciones_menu()
