@@ -72,6 +72,33 @@ class Menu_login(Menu_base):
             print("Opcion invalida, por favor ingrese una valida")
             return None
     
+    def EULA(self):
+        print(
+        "📜 Acuerdo de Usuario Final (EULA)\n"
+        "\n"
+        "Bienvenido al sistema. Antes de continuar, por favor lea atentamente los siguientes términos:\n"
+        "\n"
+        "1. Al iniciar sesión, usted acepta que sus datos serán almacenados con fines estrictamente académicos,\n"
+        "   anecdóticos y, eventualmente, para engrosar su currículum en el futuro.\n"
+        "2. El sistema no se hace responsable si su nombre aparece en una lista de 'usuarios ejemplares'\n"
+        "   o 'quienes borraron su cuenta en menos de 5 minutos'.\n"
+        "3. Al interactuar con las APIs, usted acepta que sus gustos por perros, chistes malos y cotizaciones del dólar\n"
+        "   quedarán registrados para la posteridad.\n"
+        "4. Si decide eliminar su cuenta, el sistema lo respetará... pero no lo olvidará.\n"
+        "5. Este sistema no comparte sus datos con terceros, excepto con su profesor, su conciencia\n"
+        "   y algún algoritmo curioso que quiere aprender de usted.\n"
+        "6. Al presionar 'Aceptar', usted declara que ha leído, comprendido y probablemente ignorado todo lo anterior.\n"
+        "\n"
+        "¿Acepta los términos y condiciones?\n"
+        "🟢 Sí, quiero que mi historial sea parte de mi legado académico.\n"
+        "🔴 No, pero igual voy a entrar porque quiero ver el chiste del día.\n"
+        )
+        decision_EULA = input("S/N: ").strip().upper()
+        if decision_EULA != "S":
+            return False
+        else:
+            return True
+    
     def ejecutar(self):
         while True:
             clear()
@@ -92,52 +119,67 @@ class Menu_usuario(Menu_base):
     
     def opciones_menu(self):
         print("Bienvenido a pruebas api, Por favor vea las opciones")
-        ver_opciones_menu = [["1. Fotos de perros"],["2. chistes"],["3. Dolar"] ,["4. cerrar sesion"]]
+        ver_opciones_menu = [["1. Fotos de perros"],["2. chistes"],["3. Dolar"]]
+        ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para borrar la cuenta"])
+        ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para salir"])
         print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
-        return
+        return ver_opciones_menu
     
-    def verificar_opcion(self, opcion):
+    def verificar_opcion(self, opcion, ver_opciones_menu):
         self.clear
         if opcion == "1":
             abrir_imagen()
             input("Presione enter para continuar")
-            ultima_pagina_visitada = "Api perros"
-            return ultima_pagina_visitada
+            ultima_api_visitada = "Api perros"
+            return ultima_api_visitada
         elif opcion == "2":
             traducir_chiste()
             input("Presione enter para continuar") 
-            ultima_pagina_visitada = "Api chistes"
-            return ultima_pagina_visitada   
+            ultima_api_visitada = "Api chistes"
+            return ultima_api_visitada   
         elif opcion == "3":
             self.menu_dolar.ejecutar()
-            ultima_pagina_visitada = "Api dolar"
-            return ultima_pagina_visitada
-        elif opcion == "4":
+            ultima_api_visitada = "Api dolar"
+            return ultima_api_visitada
+        elif opcion == str(len(ver_opciones_menu) - 1):
+            verificar = input("Presione borrar cuenta ¿Está seguro? S/N: ").strip().upper()
+            if verificar == "S" or verificar == "SI" or verificar == "YES":
+                return "Eliminar"
+            else:
+                return "Salir"
+                
+        elif opcion == str(len(ver_opciones_menu)):
             print("Gracias por participar en esta prueba")
             return None
         else:
             print("Opcion incorrecta intente nuevamente")
             input("Presione enter para continuar")
-            return True
+            return "Error"
     
     def ejecutar(self):
         nuevo_ingreso = 1
-        paginas_visitadas = 0
-        paginas = []
+        apis_visitadas = 0
+        apis = []
         while True:
             self.clear
-            self.opciones_menu()
+            ver_opciones_menu = self.opciones_menu()
             opcion = self.elegir_opcion()
-            pagina = self.verificar_opcion(opcion)
-            paginas.append(pagina)
-            if  len(paginas) == 1 and paginas[0] == None:
-                ultima_pagina_visitada = "salir"
-                return nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada
-            elif len(paginas) > 1 and paginas[-1] == None:
-                ultima_pagina_visitada = paginas[-2]
-                return nuevo_ingreso, paginas_visitadas, ultima_pagina_visitada
+            api = self.verificar_opcion(opcion, ver_opciones_menu)
+            apis.append(api)
+            if  len(apis) == 1 and apis[0] == "Salir":
+                ultima_api_visitada = "ninguna"
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, False
+            elif len(apis) == 1 and apis[0] == "Eliminar":
+                ultima_api_visitada = "ninguna"
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, True
+            elif len(apis) > 1 and apis[-1] == "Salir":
+                ultima_api_visitada = apis[-2]
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, False
+            elif len(apis) > 1 and apis[-1] == "Eliminar" and apis[-2] != "Error":
+                ultima_api_visitada = apis[-2]
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, True
             else:
-                paginas_visitadas += 1
+                apis_visitadas += 1
                 continue
 
 class Menu_dolar(Menu_base):
@@ -149,10 +191,12 @@ class Menu_dolar(Menu_base):
     
     def opciones_menu(self):
         print("Ingrese una de estas opciones: ")
-        ver_opciones_dolar = [["1. Dolar oficial"],["2. Dolar tarjeta"],["3. Dolar Blue"] ,["4. Regresar"]]
+        ver_opciones_dolar = [["1. Dolar oficial"],["2. Dolar tarjeta"],["3. Dolar Blue"]]
+        ver_opciones_dolar.append([str(len(ver_opciones_dolar) + ". regresar")])
         print(tabulate(ver_opciones_dolar,tablefmt="fancy_grid"))
+        return ver_opciones_dolar
     
-    def verificar_opcion(self, opcion):
+    def verificar_opcion(self, opcion, ver_opciones_dolar):
         while True:
             self.clear
             if opcion == "1":
@@ -173,7 +217,7 @@ class Menu_dolar(Menu_base):
                 input("Presione enter para continuar")
                 break
 
-            elif opcion == "4":
+            elif opcion == str(len(ver_opciones_dolar)):
                 print("Regresando al menu principal")
                 break
             
@@ -183,7 +227,7 @@ class Menu_dolar(Menu_base):
 
     def ejecutar(self):
         self.clear
-        self.opciones_menu()
+        ver_opciones_dolar = self.opciones_menu()
         opcion = self.elegir_opcion()
-        self.verificar_opcion(opcion)
+        self.verificar_opcion(opcion, ver_opciones_dolar)
         return

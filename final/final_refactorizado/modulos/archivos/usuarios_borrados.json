@@ -1,0 +1,20 @@
+[
+    {
+        "nombre": "ezequiel",
+        "nombre_usuario": "eze",
+        "fecha_borrado": "2025-09-11",
+        "motivo": "Decision propia y voluntaria",
+        "veces_ingresadas": 26,
+        "apis_visitadas": 23,
+        "ultima_api_visitada": "ninguna"
+    },
+    {
+        "nombre": "ezequiel",
+        "nombre_usuario": "eze",
+        "fecha_borrado": "2025-09-11",
+        "motivo": "Decision propia y voluntaria",
+        "veces_ingresadas": 1,
+        "apis_visitadas": 0,
+        "ultima_api_visitada": "ninguna"
+    }
+]

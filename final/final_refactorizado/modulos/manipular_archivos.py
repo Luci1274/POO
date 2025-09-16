@@ -1,11 +1,13 @@
 import json  # Para manejar archivos JSON
 import os    # Para trabajar con rutas y verificar existencia de archivos
+from datetime import date
 
 class Gestor_datos:
     def __init__(self, ruta_base=r'modulos\archivos'):
         self.__ruta_base = ruta_base  # Ruta donde se guardarán los archivos
         self.__archivo_usuarios = os.path.join(self.__ruta_base, 'usuarios.json')  # Ruta completa usuarios
         self.__archivo_admins = os.path.join(self.__ruta_base, 'administradores.json')  # Ruta completa admins
+        self.__usuarios_borrados = os.path.join(self.__ruta_base, 'usuarios_borrados.json')
         self.verificar_o_crear_archivos()  # Asegura que los archivos existan
 
     def verificar_o_crear_archivos(self):
@@ -20,16 +22,19 @@ class Gestor_datos:
         if not os.path.exists(self.__archivo_admins):
             with open(self.__archivo_admins, 'w') as f:
                 json.dump([], f)
+        
+        if not os.path.exists(self.__usuarios_borrados):
+            with open(self.__usuarios_borrados, 'w') as f:
+                json.dump([], f)
 
-    def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, cantidad_paginas_visitadas=0, ultima_pagina_visitada = ""):
+    def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, apis_visitadas=0, ultima_api_visitada = ""):
         nuevo_usuario = {
             "nombre": nombre,
             "nombre_usuario": nombre_usuario,
             "contraseña": contraseña,
             "veces_ingresadas": veces_ingresadas,
-            "cantidad_paginas_visitadas": cantidad_paginas_visitadas,
-            "ultima_pagina_visitada": ultima_pagina_visitada,
-            "Borrar_cuenta": "No"
+            "apis_visitadas": apis_visitadas,
+            "ultima_api_visitada": ultima_api_visitada
         }
         try:
             with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
@@ -65,7 +70,7 @@ class Gestor_datos:
         except Exception as e:
             print(f"❌ Error al agregar el administrador: {e}")
 
-    def actualizar_usuario(self, nombre_usuario, nuevas_visitas, nuevas_paginas, ultima_pagina_visitada):
+    def actualizar_usuario(self, nombre_usuario, nuevas_visitas, nuevas_apis_visitadas, ultima_api_visitada):
         try:
             with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
@@ -74,8 +79,8 @@ class Gestor_datos:
                 for usuario in datos:
                     if usuario["nombre_usuario"] == nombre_usuario:
                         usuario["veces_ingresadas"] += nuevas_visitas
-                        usuario["cantidad_paginas_visitadas"] += nuevas_paginas
-                        usuario["ultima_pagina_visitada"] = ultima_pagina_visitada
+                        usuario["apis_visitadas"] += nuevas_apis_visitadas
+                        usuario["ultima_api_visitada"] = ultima_api_visitada
                         usuario_encontrado = True
                         break
 
@@ -89,6 +94,57 @@ class Gestor_datos:
         except Exception as e:
             print(f"❌ Error al actualizar el usuario: {e}")
 
+    def borrar_usuario(self, nombre_usuario, motivo):
+        """
+        Elimina un usuario del archivo de usuarios y lo registra en usuarios_borrados.json
+        con nombre, nombre_usuario, fecha (solo día), motivo, veces_ingresadas y apis_visitadas.
+        """
+        try:
+            with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f_usuarios:
+                usuarios = json.load(f_usuarios)
+                usuario_encontrado = None
+
+                # Buscar el usuario
+                for usuario in usuarios:
+                    if usuario["nombre_usuario"] == nombre_usuario:
+                        usuario_encontrado = usuario
+                        break
+
+                if not usuario_encontrado:
+                    print(f"⚠️ Usuario '{nombre_usuario}' no encontrado.")
+                    return False
+
+                # Eliminar del archivo original
+                usuarios = [u for u in usuarios if u["nombre_usuario"] != nombre_usuario]
+                f_usuarios.seek(0)
+                json.dump(usuarios, f_usuarios, indent=4)
+                f_usuarios.truncate()
+
+            # Registrar en archivo de borrados
+            usuario_borrado = {
+                "nombre": usuario_encontrado["nombre"],
+                "nombre_usuario": usuario_encontrado["nombre_usuario"],
+                "fecha_borrado": date.today().isoformat(),  # Solo día
+                "motivo": motivo,
+                "veces_ingresadas": usuario_encontrado.get("veces_ingresadas", 0),
+                "apis_visitadas": usuario_encontrado.get("apis_visitadas", 0),
+                "ultima_api_visitada": usuario_encontrado.get("ultima_api_visitada", 0)
+            }
+
+            with open(self.__usuarios_borrados, 'r+', encoding='utf-8') as f_borrados:
+                borrados = json.load(f_borrados)
+                borrados.append(usuario_borrado)
+                f_borrados.seek(0)
+                json.dump(borrados, f_borrados, indent=4)
+                f_borrados.truncate()
+            return True
+
+        except Exception as e:
+            print(f"❌ Error al borrar el usuario: {e}")
+            return False
+
+
+    
     def verificar_nombre_usuario(self, ruta_archivo, nombre_usuario):
         """
         Verifica si el nombre_usuario existe en el archivo JSON especificado.
@@ -151,8 +207,8 @@ class Gestor_datos:
                         usuario.get("nombre", ""),
                         usuario.get("nombre_usuario", ""),
                         usuario.get("veces_ingresadas", 0),
-                        usuario.get("cantidad_paginas_visitadas", 0),
-                        usuario.get("ultima_pagina_visitada", "")
+                        usuario.get("apis_visitadas", 0),
+                        usuario.get("ultima_api_visitada", "")
                     ]
                     tabla.append(fila)
 

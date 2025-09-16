@@ -59,7 +59,6 @@ class Login:
                     break
                 else:
                     continue
-            
 
     def verificar_usuario(self, nombre_usuario, contraseña):
         ruta_usuario = "modulos\\archivos\\usuarios.json"
