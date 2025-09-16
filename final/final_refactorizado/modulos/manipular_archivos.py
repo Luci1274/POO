@@ -93,6 +93,30 @@ class Gestor_datos:
                     print(f"⚠️ Usuario '{nombre_usuario}' no encontrado.")
         except Exception as e:
             print(f"❌ Error al actualizar el usuario: {e}")
+            
+    def modificar_contraseña_usuario(self, nombre_usuario, nueva_contraseña):
+        "Esta funcion modifica la contraseña del ususario"
+        
+        try:
+            with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
+                datos = json.load(f)
+                usuario_encontrado = False
+
+                for usuario in datos:
+                    if usuario["nombre_usuario"] == nombre_usuario:
+                        usuario["contraseña"] = nueva_contraseña
+                        usuario_encontrado = True
+                        break
+
+                if usuario_encontrado:
+                    f.seek(0)
+                    json.dump(datos, f, indent=4)
+                    f.truncate()
+                    print(f"✅ Contraseña actualizada correctamente.")
+                else:
+                    print(f"⚠️ Usuario '{nombre_usuario}' no encontrado.")
+        except Exception as e:
+            print(f"❌ Error al actualizar el usuario: {e}")
 
     def borrar_usuario(self, nombre_usuario, motivo):
         """
@@ -217,36 +241,4 @@ class Gestor_datos:
         except Exception as e:
             print(f"❌ Error al obtener los datos de usuarios: {e}")
             return []
-
-    def filtrar_datos_varios(self, campo, valor_buscado):
-        """
-        Devuelve una lista de usuarios donde el campo coincide con el valor buscado.
-        """
-        try:
-            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as f:
-                datos = json.load(f)
-                filtrados = [
-                    d for d in datos
-                    if str(d.get(campo, "")).lower() == str(valor_buscado).lower()
-                ]
-                return filtrados
-        except Exception as e:
-            print(f"❌ Error al filtrar datos: {e}")
-            return []
-
-    def mostrar_valores(self, campo):
-        """
-        Devuelve los valores para que sea mas facil realizar la busqueda
-        """
-        try:
-            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as f:
-                datos = json.load(f)
-                valores = [
-                    d for d in datos
-                    if str(d.get(campo, "")).lower()
-                ]
-                return valores
-        except Exception as e:
-            print(f"❌ Error al filtrar datos: {e}")
-            return []    
     

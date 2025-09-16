@@ -70,6 +70,15 @@ class Login:
         respuesta = self.gestor.verificar_credenciales(ruta_admin, nombre_usuario, contraseña)
         return respuesta
 
+    def cambiar_contraseña(self):
+        "Esta funcion llama a la funcion de la clase Manipular_datos para cambiar la contraseña del usuario"
+        clear()
+        nombre_usuario = input("ingrese el nombre del usuario: ").strip()
+        nueva_contraseña = input("Ingrese la nueva contraseña: ").strip()
+        self.gestor.modificar_contraseña_usuario(nombre_usuario, nueva_contraseña)
+        input("Presione enter para continuar")
+        return
+
     def registrar_usuario(self):
         intentos = 3
         fallos = 0
@@ -79,7 +88,7 @@ class Login:
             print(f"Tienes {intentos} intentos")
             nombre = input("Nombre de real: ").strip()
             nombre_usuario = input("Nombre de usuario: ")
-            contraseña = input("Contraseña: ").strip()
+            contraseña = input("Contraseña: ").strip()    
             if len(nombre) == 0 or len(nombre_usuario) == 0 or len(contraseña) == 0:
                 print("Rellene los campos")
                 input("Presione enter para continuar")

@@ -6,6 +6,7 @@ from modulos.login import Login
 from modulos.apis.dog_api import abrir_imagen
 from modulos.apis.joke_api import traducir_chiste
 from modulos.apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue
+from time import sleep
 
 
 def clear():
@@ -49,7 +50,7 @@ class Menu_login(Menu_base):
     
     def opciones_menu(self):
         print("Bienvenido al final de Programacion 1.")
-        ver_opciones = [["1. Iniciar sesion"],["2. Registrarse"],["3. Salir"]]
+        ver_opciones = [["1. Iniciar sesion"], ["2. Registrarse"], ["3. Cambiar contraseña"], ["4. Salir"]]
         print(tabulate(ver_opciones,tablefmt="fancy_grid"))
 
     def verificar_opcion(self, elegir):
@@ -63,10 +64,15 @@ class Menu_login(Menu_base):
         elif elegir == "2":
             if self.login.registrar_usuario() == True:
                 print("Inicio exitoso")      
+        
+        elif elegir == "3":
+            self.login.cambiar_contraseña()
                 
             return None
-        elif elegir == "3":
+        elif elegir == "4":
             print("Finalizando programa...")
+            sleep(1)
+            clear()
             sys.exit(0)
         else:
             print("Opcion invalida, por favor ingrese una valida")
