@@ -22,7 +22,7 @@ def clear():
 
 class Menu_base:
     def __init__ (self):
-        self.clear = clear()
+        clear()
     
     def opciones_menu(self):
         print()
@@ -38,14 +38,14 @@ class Menu_base:
     
     def ejecutar(self):
         while True:
-            self.clear
+            clear()
             self.opciones_menu()
             elegir = self.elegir_opcion()
             resultado = self.verificacion_opcion()
             
 class Menu_login(Menu_base):
     def __init__(self):
-        self.clear = clear()
+        clear()
         self.login = Login()
     
     def opciones_menu(self):
@@ -118,7 +118,7 @@ class Menu_login(Menu_base):
             
 class Menu_usuario(Menu_base):
     def __init__(self):
-        self.clear = clear()
+        clear()
         self.abrir_imagen = abrir_imagen
         self.traducir_chiste = traducir_chiste
         self.menu_dolar = Menu_dolar()
@@ -132,7 +132,7 @@ class Menu_usuario(Menu_base):
         return ver_opciones_menu
     
     def verificar_opcion(self, opcion, ver_opciones_menu):
-        self.clear
+        clear()
         if opcion == "1":
             abrir_imagen()
             input("Presione enter para continuar")
@@ -156,7 +156,7 @@ class Menu_usuario(Menu_base):
                 
         elif opcion == str(len(ver_opciones_menu)):
             print("Gracias por participar en esta prueba")
-            return None
+            return "Salir"
         else:
             print("Opcion incorrecta intente nuevamente")
             input("Presione enter para continuar")
@@ -167,7 +167,7 @@ class Menu_usuario(Menu_base):
         apis_visitadas = 0
         apis = []
         while True:
-            self.clear
+            clear()
             ver_opciones_menu = self.opciones_menu()
             opcion = self.elegir_opcion()
             api = self.verificar_opcion(opcion, ver_opciones_menu)
@@ -190,7 +190,7 @@ class Menu_usuario(Menu_base):
 
 class Menu_dolar(Menu_base):
     def __init__(self):
-        self.clear = clear()
+        clear()
         self.Dolar_oficial = Dolar_oficial
         self.Dolar_tarjeta = Dolar_tarjeta
         self.Dolar_blue = Dolar_blue
@@ -198,13 +198,13 @@ class Menu_dolar(Menu_base):
     def opciones_menu(self):
         print("Ingrese una de estas opciones: ")
         ver_opciones_dolar = [["1. Dolar oficial"],["2. Dolar tarjeta"],["3. Dolar Blue"]]
-        ver_opciones_dolar.append([str(len(ver_opciones_dolar) + ". regresar")])
+        ver_opciones_dolar.append([str(len(ver_opciones_dolar) + 1) + ". regresar"])
         print(tabulate(ver_opciones_dolar,tablefmt="fancy_grid"))
         return ver_opciones_dolar
     
     def verificar_opcion(self, opcion, ver_opciones_dolar):
         while True:
-            self.clear
+            clear()
             if opcion == "1":
                 dolar_oficial = Dolar_oficial()
                 dolar_oficial.mostrar_info()
@@ -232,7 +232,7 @@ class Menu_dolar(Menu_base):
                 input("Presione enter para continuar")
 
     def ejecutar(self):
-        self.clear
+        clear()
         ver_opciones_dolar = self.opciones_menu()
         opcion = self.elegir_opcion()
         self.verificar_opcion(opcion, ver_opciones_dolar)

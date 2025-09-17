@@ -17,37 +17,35 @@ def obtener_chiste():
         return "Error al obtener el chiste."
 
 
-def traducir_texto(texto, origen="en", destino="es"):
+def traducir_texto_mymemory(texto, origen="en", destino="es"):
     """
-    Traduce un texto usando la API de LibreTranslate.
-    - origen: idioma original (ej. 'en' para inglés).
-    - destino: idioma de traducción (ej. 'es' para español).
+    Traduce un texto usando MyMemory (gratis, con límites).
     """
-    url = "https://libretranslate.com/translate"
-    payload = {
-        "q": texto,
-        "source": origen,
-        "target": destino,
-        "format": "text"
-    }
-    headers = {"Content-Type": "application/json"}
-
-    response = requests.post(url, json=payload, headers=headers)
+    url = "https://api.mymemory.translated.net/get"
+    params = {"q": texto, "langpair": f"{origen}|{destino}"}
+    response = requests.get(url, params=params)
 
     if response.status_code == 200:
         data = response.json()
-        return data["translatedText"]
+        return data.get("responseData", {}).get("translatedText", "")
     else:
-        return "Error en la traducción."
+        return f"Error en la traducción: {response.status_code}"
+
 
 def traducir_chiste():
-    print("Desea traducir el chiste? S/N")
+    print("¿Desea traducir el chiste? (S/N)")
     respuesta = input("").strip().upper()
-    if respuesta != "N" or respuesta == "N":
-        chiste = obtener_chiste()
+
+    chiste = obtener_chiste()
+
+    if respuesta == "S":
+        print("\nRequisando quiste")
+        print("\nChiste original en inglés:")
         print(chiste)
-    elif respuesta == "S":
-        chiste = obtener_chiste()
-        traduccion = traducir_texto(chiste, origen="en", destino="es")
-        print("\nChiste traducido al español:")
+        print("\nTraduciendo chiste a español, aguarde un momento...")
+        traduccion = traducir_texto_mymemory(chiste, origen="en", destino="es")
+        print("\nChiste traducido:")
         print(traduccion)
+    else:
+        print("\nChiste en inglés:")
+        print(chiste)
