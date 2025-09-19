@@ -154,7 +154,7 @@ class Gestor_datos:
                 "apis_visitadas": usuario_encontrado.get("apis_visitadas", 0),
                 "ultima_api_visitada": usuario_encontrado.get("ultima_api_visitada", 0)
             }
-
+            
             with open(self.__usuarios_borrados, 'r+', encoding='utf-8') as f_borrados:
                 borrados = json.load(f_borrados)
                 borrados.append(usuario_borrado)
@@ -216,29 +216,94 @@ class Gestor_datos:
         lista que puede ser usada directamente con tabulate.
         """
         try:
-            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as f:
-                datos = json.load(f)
+            tabla = []
 
-                # Si no hay usuarios, devuelve una lista vacía
-                if not datos:
-                    print("⚠️ No hay usuarios registrados.")
-                    return []
+            # Usuarios activos
+            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as A:
+                datos_activos = json.load(A)
+                if not datos_activos:
+                    print("⚠️ No hay usuarios activos registrados.")
+                else:
+                    for usuario_activo in datos_activos:
+                        fila = [
+                            usuario_activo.get("nombre", ""),
+                            usuario_activo.get("nombre_usuario", ""),
+                            usuario_activo.get("veces_ingresadas", 0),
+                            usuario_activo.get("apis_visitadas", 0),
+                            usuario_activo.get("ultima_api_visitada", "")
+                        ]
+                        tabla.append(fila)
 
-                # Extrae los campos relevantes para la tabla
-                tabla = []
-                for usuario in datos:
-                    fila = [
-                        usuario.get("nombre", ""),
-                        usuario.get("nombre_usuario", ""),
-                        usuario.get("veces_ingresadas", 0),
-                        usuario.get("apis_visitadas", 0),
-                        usuario.get("ultima_api_visitada", "")
-                    ]
-                    tabla.append(fila)
+            # Usuarios inactivos
+            with open(self.__usuarios_borrados, "r", encoding='utf-8') as I:
+                datos_inactivos = json.load(I)
+                if not datos_inactivos:
+                    print("⚠️ No hay usuarios inactivos registrados.")
+                else:
+                    for usuario_inactivo in datos_inactivos:
+                        fila = [
+                            usuario_inactivo.get("nombre", ""),
+                            usuario_inactivo.get("nombre_usuario", ""),
+                            usuario_inactivo.get("veces_ingresadas", 0),
+                            usuario_inactivo.get("apis_visitadas", 0),
+                            usuario_inactivo.get("ultima_api_visitada", "")
+                        ]
+                        tabla.append(fila)
 
-                return tabla
+            return tabla  # 👉 devolvemos los datos combinados
 
         except Exception as e:
             print(f"❌ Error al obtener los datos de usuarios: {e}")
             return []
     
+    def obtener_datos_usuarios_activos(self):
+        """
+        Devuelve una lista de listas con los datos de los usuarios,
+        lista que puede ser usada directamente con tabulate.
+        """
+        try:
+            tabla = []
+
+            # Usuarios activos
+            with open(self.__archivo_usuarios, 'r', encoding='utf-8') as A:
+                datos_activos = json.load(A)
+                if not datos_activos:
+                    print("⚠️ No hay usuarios activos registrados.")
+                else:
+                    for usuario_activo in datos_activos:
+                        fila = [
+                            usuario_activo.get("nombre", ""),
+                            usuario_activo.get("nombre_usuario", ""),
+                            usuario_activo.get("veces_ingresadas", 0),
+                            usuario_activo.get("apis_visitadas", 0),
+                            usuario_activo.get("ultima_api_visitada", "")
+                        ]
+                        tabla.append(fila)
+            return tabla  # 👉 devolvemos los datos
+        except Exception as e:
+            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            return []
+    
+    def obtener_datos_usuarios_inactivos(self):
+        try:
+            tabla = []
+            # Usuarios inactivos
+            with open(self.__usuarios_borrados, "r", encoding='utf-8') as I:
+                datos_inactivos = json.load(I)
+                if not datos_inactivos:
+                    print("⚠️ No hay usuarios inactivos registrados.")
+                else:
+                    for usuario_inactivo in datos_inactivos:
+                        fila = [
+                            usuario_inactivo.get("nombre", ""),
+                            usuario_inactivo.get("nombre_usuario", ""),
+                            usuario_inactivo.get("veces_ingresadas", 0),
+                            usuario_inactivo.get("apis_visitadas", 0),
+                            usuario_inactivo.get("ultima_api_visitada", "")
+                        ]
+                        tabla.append(fila)
+            return tabla  # 👉 devolvemos los datos
+
+        except Exception as e:
+            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            return []

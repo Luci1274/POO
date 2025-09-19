@@ -1,4 +1,4 @@
-from modulos.menus import Menu_usuario
+from modulos.menus import Menu_usuario, Menu_administrador
 from modulos.manipular_archivos import Gestor_datos
 
 class Usuario:
@@ -36,3 +36,10 @@ class Usuario:
         nombre_usuario = self.get_nombre_usuario()
         Gestor_datos().actualizar_usuario(nombre_usuario, self.nuevas_visitas, self.apis_visitadas, self.ultima_api_visitada)
 
+class Administrador():
+    def __init__ (self):
+        self.menu_ad = Menu_administrador()
+
+    def interactuar_menu(self):
+        self.menu_ad.ejecutar()
+        

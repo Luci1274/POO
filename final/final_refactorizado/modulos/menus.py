@@ -7,7 +7,7 @@ from modulos.apis.dog_api import abrir_imagen
 from modulos.apis.joke_api import traducir_chiste
 from modulos.apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue
 from time import sleep
-
+from modulos.manipular_archivos import Gestor_datos
 
 def clear():
     "Limpia la pantalla y hace unas lineas"
@@ -237,3 +237,54 @@ class Menu_dolar(Menu_base):
         opcion = self.elegir_opcion()
         self.verificar_opcion(opcion, ver_opciones_dolar)
         return
+    
+class Menu_administrador(Menu_base):
+    def __init__(self):
+        clear()
+        self.gestor_datos = Gestor_datos()
+    
+    def opciones_menu(self):
+        ver_opciones_menu = [["1. Ver datos usuarios activos/inactivos"], ["2. Ver datos usuarios activos"], ["3. Ver datis usuarios inanctivos"]]
+        
+        ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Agregar administrador"])
+        ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para salir"])
+        print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
+        return ver_opciones_menu
+
+    def verificar_opcion(self, opcion, ver_opciones_menu):
+        clear()
+        if opcion == "1":
+            datos_tabla = self.gestor_datos.obtener_datos_usuarios()
+            print(tabulate(datos_tabla, headers=["Nombre", "Usuario", "Ingresos", "Páginas Visitadas", "Última Página"], tablefmt="fancy_grid"))
+            input("Presione enter para continuar")
+        
+        elif opcion == "2":
+            datos_tabla = self.gestor_datos.obtener_datos_usuarios_activos()
+            print(tabulate(datos_tabla, headers=["Nombre", "Usuario", "Ingresos", "Páginas Visitadas", "Última Página"], tablefmt="fancy_grid"))
+            input("Presione enter para continuar")
+        
+        elif opcion == "3":
+            datos_tabla = self.gestor_datos.obtener_datos_usuarios_inactivos()
+            print(tabulate(datos_tabla, headers=["Nombre", "Usuario", "Ingresos", "Páginas Visitadas", "Última Página"], tablefmt="fancy_grid"))
+            input("Presione enter para continuar")
+            
+        elif opcion == str(len(ver_opciones_menu)- 1):
+            nombre = input("Ingrese el nombre del nuevo ad: ")
+            contraseña = input("Ingrese la contraseña: ")
+            self.gestor_datos.agregar_administrador(nombre, contraseña)
+            input("Presione enter para continuar")   
+        else:
+            print("ENSERIO? HOMBRE ERES ADMINISTRADOR!!!!")
+            input("Presione enter para continuar")
+            
+    def ejecutar(self):
+        while True:
+            clear()
+            ver_opciones_menu = self.opciones_menu()
+            opcion = self.elegir_opcion()
+            if opcion == str(len(ver_opciones_menu)):
+                break
+            else:
+                self.verificar_opcion(opcion, ver_opciones_menu)
+        
+        

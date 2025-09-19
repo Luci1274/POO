@@ -1,6 +1,5 @@
 from modulos.menus import Menu_login
-from modulos.clases_usuarios import Usuario
-from modulos.menu_administrador import menu_administrador
+from modulos.clases_usuarios import Usuario, Administrador
 iniciar = Menu_login()
 iniciar.EULA()
 while True:
@@ -15,4 +14,5 @@ while True:
             usuario.eliminar_cuenta()
             continue
     else:
-        menu_administrador()
+        Administrador().interactuar_menu()
+        
