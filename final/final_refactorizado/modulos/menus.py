@@ -144,8 +144,7 @@ class Menu_usuario(Menu_base):
             ultima_api_visitada = "Api chistes"
             return ultima_api_visitada   
         elif opcion == "3":
-            self.menu_dolar.ejecutar()
-            ultima_api_visitada = "Api dolar"
+            ultima_api_visitada = self.menu_dolar.ejecutar()
             return ultima_api_visitada
         elif opcion == str(len(ver_opciones_menu) - 1):
             verificar = input("Presione borrar cuenta ¿Está seguro? S/N: ").strip().upper()
@@ -166,7 +165,7 @@ class Menu_usuario(Menu_base):
         nuevo_ingreso = 1
         apis_visitadas = 0
         apis = []
-        consultas_api = []
+        consultas_api = {}
         while True:
             clear()
             ver_opciones_menu = self.opciones_menu()
@@ -176,10 +175,8 @@ class Menu_usuario(Menu_base):
             """
             Guardar las consultas de las apis
             """
-            if api == "Salir" or api == "Eliminar":
-                pass
-            else:
-                consultas_api.append((api, 1))
+            if api not in ["Salir", "Error", "Eliminar"]:
+                consultas_api[api] = consultas_api.get(api, 0) + 1
             """
             Salir del menu al login
             """
@@ -221,23 +218,23 @@ class Menu_dolar(Menu_base):
                 dolar_oficial = Dolar_oficial()
                 dolar_oficial.mostrar_info()
                 input("Presione enter para continuar")
-                break
+                return "Dolar oficial"
             
             elif opcion == "2":
                 dolar_tarjeta = Dolar_tarjeta()
                 dolar_tarjeta.mostrar_info()
                 input("Presione enter para continuar")
-                break
+                return "Dolar tarjeta"
             
             elif opcion == "3":
                 dolar_blue = Dolar_blue()
                 dolar_blue.mostrar_info()
                 input("Presione enter para continuar")
-                break
+                return "Dolar blue"
 
             elif opcion == str(len(ver_opciones_dolar)):
                 print("Regresando al menu principal")
-                break
+                return "Ninguno"
             
             else:
                 print("Opcion incorrecta intente nuevamente")
@@ -247,8 +244,8 @@ class Menu_dolar(Menu_base):
         clear()
         ver_opciones_dolar = self.opciones_menu()
         opcion = self.elegir_opcion()
-        self.verificar_opcion(opcion, ver_opciones_dolar)
-        return
+        api_dolar_visitada = self.verificar_opcion(opcion, ver_opciones_dolar)
+        return api_dolar_visitada
     
 class Menu_administrador(Menu_base):
     def __init__(self):
