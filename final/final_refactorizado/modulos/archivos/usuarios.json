@@ -1,0 +1,34 @@
+[
+    {
+        "nombre": "federico",
+        "nombre_usuario": "fideo",
+        "contrase\u00f1a": "rojo",
+        "veces_ingresadas": 0,
+        "apis_visitadas": 0,
+        "ultima_api_visitada": ""
+    },
+    {
+        "nombre": "micha",
+        "nombre_usuario": "micha04",
+        "contrase\u00f1a": "1234",
+        "veces_ingresadas": 1,
+        "apis_visitadas": 1,
+        "ultima_api_visitada": "salir"
+    },
+    {
+        "nombre": "luciano",
+        "nombre_usuario": "luci2512",
+        "contrase\u00f1a": "1225",
+        "veces_ingresadas": 0,
+        "apis_visitadas": 0,
+        "ultima_api_visitada": ""
+    },
+    {
+        "nombre": "lu",
+        "nombre_usuario": "eze",
+        "contrase\u00f1a": "1274",
+        "veces_ingresadas": 2,
+        "apis_visitadas": 9,
+        "ultima_api_visitada": "Api dolar"
+    }
+]
