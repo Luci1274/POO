@@ -134,12 +134,12 @@ class Menu_usuario(Menu_base):
     def verificar_opcion(self, opcion, ver_opciones_menu):
         clear()
         if opcion == "1":
-            abrir_imagen()
+            self.abrir_imagen()
             input("Presione enter para continuar")
             ultima_api_visitada = "Api perros"
             return ultima_api_visitada
         elif opcion == "2":
-            traducir_chiste()
+            self.traducir_chiste()
             input("Presione enter para continuar") 
             ultima_api_visitada = "Api chistes"
             return ultima_api_visitada   
@@ -166,24 +166,36 @@ class Menu_usuario(Menu_base):
         nuevo_ingreso = 1
         apis_visitadas = 0
         apis = []
+        consultas_api = []
         while True:
             clear()
             ver_opciones_menu = self.opciones_menu()
             opcion = self.elegir_opcion()
             api = self.verificar_opcion(opcion, ver_opciones_menu)
             apis.append(api)
+            """
+            Guardar las consultas de las apis
+            """
+            if api == "Salir" or api == "Eliminar":
+                pass
+            else:
+                consultas_api.append((api, 1))
+            """
+            Salir del menu al login
+            """
             if  len(apis) == 1 and apis[0] == "Salir":
                 ultima_api_visitada = "ninguna"
-                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, False
+                
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, False, consultas_api
             elif len(apis) == 1 and apis[0] == "Eliminar":
                 ultima_api_visitada = "ninguna"
-                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, True
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, True, consultas_api
             elif len(apis) > 1 and apis[-1] == "Salir":
                 ultima_api_visitada = apis[-2]
-                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, False
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, False, consultas_api
             elif len(apis) > 1 and apis[-1] == "Eliminar" and apis[-2] != "Error":
                 ultima_api_visitada = apis[-2]
-                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, True
+                return nuevo_ingreso, apis_visitadas, ultima_api_visitada, True, consultas_api
             else:
                 apis_visitadas += 1
                 continue
@@ -244,7 +256,7 @@ class Menu_administrador(Menu_base):
         self.gestor_datos = Gestor_datos()
     
     def opciones_menu(self):
-        ver_opciones_menu = [["1. Ver datos usuarios activos/inactivos"], ["2. Ver datos usuarios activos"], ["3. Ver datis usuarios inanctivos"]]
+        ver_opciones_menu = [["1. Ver datos usuarios activos/inactivos"], ["2. Ver datos usuarios activos"], ["3. Ver datis usuarios inanctivos"], ["4. Ver consultas apis"]]
         
         ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Agregar administrador"])
         ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para salir"])
@@ -267,7 +279,12 @@ class Menu_administrador(Menu_base):
             datos_tabla = self.gestor_datos.obtener_datos_usuarios_inactivos()
             print(tabulate(datos_tabla, headers=["Nombre", "Usuario", "Ingresos", "Páginas Visitadas", "Última Página"], tablefmt="fancy_grid"))
             input("Presione enter para continuar")
-            
+        
+        elif opcion == "4":
+            datos_tabla = self.gestor_datos.obtener_consultas_apis()
+            print(tabulate(datos_tabla, headers=["Nombre Api", "Veces consultadas"], tablefmt="fancy_grid"))
+            input("Presione enter para continuar")
+        
         elif opcion == str(len(ver_opciones_menu)- 1):
             nombre = input("Ingrese el nombre del nuevo ad: ")
             contraseña = input("Ingrese la contraseña: ")

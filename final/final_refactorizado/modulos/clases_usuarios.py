@@ -19,12 +19,14 @@ class Usuario:
         self.apis_visitadas = datos[1]
         self.ultima_api_visitada = datos[2]
         eliminar = datos[3]
+        consultas_api = datos[4]
         if self.ultima_api_visitada == None or self.ultima_api_visitada == True:
             self.ultima_api_visitada = "ninguna"
         else:
             int(self.nuevas_visitas)
             int(self.apis_visitadas)
             str(self.ultima_api_visitada)
+        Gestor_datos().actualizar_consultas_api(consultas_api)
         return eliminar
     
     def eliminar_cuenta(self):

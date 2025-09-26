@@ -8,6 +8,7 @@ class Gestor_datos:
         self.__archivo_usuarios = os.path.join(self.__ruta_base, 'usuarios.json')  # Ruta completa usuarios
         self.__archivo_admins = os.path.join(self.__ruta_base, 'administradores.json')  # Ruta completa admins
         self.__usuarios_borrados = os.path.join(self.__ruta_base, 'usuarios_borrados.json')
+        self.__seguimiento_consulta_apis = os.path.join(self.__ruta_base, "consutas_api.json")
         self.verificar_o_crear_archivos()  # Asegura que los archivos existan
 
     def verificar_o_crear_archivos(self):
@@ -15,17 +16,21 @@ class Gestor_datos:
 
         # Crea archivo de usuarios si no existe
         if not os.path.exists(self.__archivo_usuarios):
-            with open(self.__archivo_usuarios, 'w') as f:
-                json.dump([], f)
+            with open(self.__archivo_usuarios, 'w') as au:
+                json.dump([], au)
 
         # Crea archivo de administradores si no existe
         if not os.path.exists(self.__archivo_admins):
-            with open(self.__archivo_admins, 'w') as f:
-                json.dump([], f)
+            with open(self.__archivo_admins, 'w') as aa:
+                json.dump([], aa)
         
         if not os.path.exists(self.__usuarios_borrados):
-            with open(self.__usuarios_borrados, 'w') as f:
-                json.dump([], f)
+            with open(self.__usuarios_borrados, 'w') as ab:
+                json.dump([], ab)
+        
+        if not os.path.exists(self.__seguimiento_consulta_apis):
+            with open(self.__seguimiento_consulta_apis, "w") as sca:
+                json.dump([], sca)
 
     def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, apis_visitadas=0, ultima_api_visitada = ""):
         nuevo_usuario = {
@@ -167,7 +172,39 @@ class Gestor_datos:
             print(f"❌ Error al borrar el usuario: {e}")
             return False
 
+    def actualizar_consultas_api(self, lista_consultas):
+        """
+        
+        """
+        try:
+            with open(self.__seguimiento_consulta_apis, "r+", encoding='utf-8') as f:
+                datos = json.load(f)
 
+                # Convertimos a dict para acceso rápido
+                consultas_existentes = {item["Api"]: item for item in datos}
+
+                for entrada in lista_consultas:
+                    if isinstance(entrada, dict):
+                        api = entrada.get("Api")
+                        cantidad = entrada.get("Veces consultada", 1)
+                    else:
+                        api, cantidad = entrada
+
+                    if api in consultas_existentes:
+                        consultas_existentes[api]["Veces consultada"] += cantidad
+                    else:
+                        consultas_existentes[api] = {
+                            "Api": api,
+                            "Veces consultada": cantidad
+                        }
+
+                # Volvemos a lista ordenada
+                datos_actualizados = list(consultas_existentes.values())
+                f.seek(0)
+                json.dump(datos_actualizados, f, indent=4)
+                f.truncate()
+        except Exception as e:
+            print(f"❌ Error al actualizar las consultas de APIs: {e}")
     
     def verificar_nombre_usuario(self, ruta_archivo, nombre_usuario):
         """
@@ -300,6 +337,27 @@ class Gestor_datos:
                             usuario_inactivo.get("veces_ingresadas", 0),
                             usuario_inactivo.get("apis_visitadas", 0),
                             usuario_inactivo.get("ultima_api_visitada", "")
+                        ]
+                        tabla.append(fila)
+            return tabla  # 👉 devolvemos los datos
+
+        except Exception as e:
+            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            return []
+    
+    def obtener_consultas_apis(self):
+        try:
+            tabla = []
+            # Usuarios inactivos
+            with open(self.__seguimiento_consulta_apis, "r", encoding='utf-8') as sca:
+                datos_apis = json.load(sca)
+                if not datos_apis:
+                    print("⚠️ No hay usuarios inactivos registrados.")
+                else:
+                    for api in datos_apis:
+                        fila = [
+                            api.get("Api", ""),
+                            api.get("Veces consultada", 0)
                         ]
                         tabla.append(fila)
             return tabla  # 👉 devolvemos los datos
