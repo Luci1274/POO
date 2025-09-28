@@ -6,6 +6,7 @@ from modulos.login import Login
 from modulos.apis.img_api import Dog_api, Cat_api
 from modulos.apis.joke_api import traducir_chiste
 from modulos.apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue, Dolar_cripto
+from modulos.apis.freetogame_api import Free_to_game_api
 from time import sleep
 from modulos.manipular_archivos import Gestor_datos
 
@@ -123,10 +124,11 @@ class Menu_usuario(Menu_base):
         self.cat = Cat_api()
         self.traducir_chiste = traducir_chiste
         self.menu_dolar = Menu_dolar()
+        self.menu_free_to_game = Menu_free_to_game()
     
     def opciones_menu(self):
         print("Bienvenido a pruebas api, Por favor vea las opciones")
-        ver_opciones_menu = [["1. Fotos de perros"], ["2. Fotos de gatos"], ["3. chistes"], ["4. Dolar"]]
+        ver_opciones_menu = [["1. Fotos de perros"], ["2. Fotos de gatos"], ["3. chistes"], ["4. Dolar"], ["5. información de juegos"]]
         ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para borrar la cuenta"])
         ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para salir"])
         print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
@@ -139,19 +141,26 @@ class Menu_usuario(Menu_base):
             input("Presione enter para continuar")
             ultima_api_visitada = "Api perros"
             return ultima_api_visitada
+        
         elif opcion == "2":
             self.cat.abrir_imagen()
             input("Presione enter para continuar")
             ultima_api_visitada = "Api gatos"
             return ultima_api_visitada
+        
         elif opcion == "3":
             self.traducir_chiste()
             input("Presione enter para continuar") 
             ultima_api_visitada = "Api chistes"
             return ultima_api_visitada   
+        
         elif opcion == "4":
             ultima_api_visitada = self.menu_dolar.ejecutar()
             return ultima_api_visitada
+        
+        elif opcion == "5":
+            ultima_api_visitada = self.menu_free_to_game.ejecutar()
+        
         elif opcion == str(len(ver_opciones_menu) - 1):
             verificar = input("Presione borrar cuenta ¿Está seguro? S/N: ").strip().upper()
             if verificar == "S" or verificar == "SI" or verificar == "YES":
@@ -259,6 +268,68 @@ class Menu_dolar(Menu_base):
         api_dolar_visitada = self.verificar_opcion(opcion, ver_opciones_dolar)
         return api_dolar_visitada
     
+class Menu_free_to_game(Menu_base):
+    def __init__(self):
+        clear()
+        self.freetogame = Free_to_game_api()
+    
+    def opciones_menu(self):
+        ver_opciones_menu = [["1. Mostrar cantidad  juegos a eleccion"], ["2. Buscar juego por ID"]]
+        ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para salir"])
+        print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
+        return ver_opciones_menu
+    
+    def verificar_opcion(self, opcion, ver_opciones_menu):
+        clear()
+        if opcion == "1":
+            juegos_totales = self.freetogame.contar_juegos()
+            print(f"La cantidad de IDs es de: {juegos_totales}\n")
+            try:
+                cantidad = int(input("Ingrese la cantidad de juegos a buscar: ").strip())
+                if cantidad >= 1 and cantidad <= juegos_totales:
+                    self.freetogame.obtener_todos(cantidad)
+                    input("Precione enter para continuar")
+                    return
+                else:
+                    print("El numero debe de ser mayor a 0")
+                    input("Precione enter para continuar") 
+                    return   
+            except:
+                print("Se debe de ingresar un numero")
+                input("Precione enter para continuar")
+                return
+                    
+        elif opcion == "2":
+            clear()
+            juegos_totales = self.freetogame.contar_juegos()
+            print(f"La cantidad de IDs es de: {juegos_totales}\n")
+            try:
+                ID = int(input("Ingrese un ID: ").strip())
+                if ID >= 1 and ID <= juegos_totales:
+                    self.freetogame.obtener_por_id(ID)
+                    input("Precione enter para continuar")
+                else:
+                    print(f"El ID debe de ser mayor a 0 y menor a {juegos_totales}")
+                    input("Precione enter para continuar")
+            except:
+                print("Se debe de ingresar un numero")
+                input("Precione enter para continuar")
+
+        else:
+            print("Opcion incorrecta intente nuevamente")
+            input("Presione enter para continuar")
+            
+            
+    def ejecutar(self):
+        while True:
+            clear()
+            ver_opciones_menu = self.opciones_menu()
+            opcion = self.elegir_opcion()
+            if opcion == str(len(ver_opciones_menu)):
+                return "Free to Games Api"
+            else:
+                self.verificar_opcion(opcion, ver_opciones_menu)
+
 class Menu_administrador(Menu_base):
     def __init__(self):
         clear()
@@ -312,5 +383,3 @@ class Menu_administrador(Menu_base):
                 break
             else:
                 self.verificar_opcion(opcion, ver_opciones_menu)
-        
-        

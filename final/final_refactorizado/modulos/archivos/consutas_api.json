@@ -22,5 +22,9 @@
     {
         "Api": "Api gatos",
         "Veces consultada": 2
+    },
+    {
+        "Api": null,
+        "Veces consultada": 1
     }
 ]
