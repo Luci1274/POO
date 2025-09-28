@@ -18,5 +18,9 @@
     {
         "Api": "Dolar oficial",
         "Veces consultada": 1
+    },
+    {
+        "Api": "Api gatos",
+        "Veces consultada": 2
     }
 ]

@@ -61,3 +61,13 @@ class Dolar_blue(Dolar_api):
         
     def mostrar_info(self):
         super().mostrar_info()
+
+class Dolar_cripto(Dolar_api):
+    def __init__(self, url="https://dolarapi.com/v1/dolares/cripto"):
+        super().__init__(url)
+    
+    def obtener_datos(self):
+        super().obtener_datos()
+    
+    def mostrar_info(self):
+        super().mostrar_info()

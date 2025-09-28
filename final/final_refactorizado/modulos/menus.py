@@ -3,9 +3,9 @@ import os
 import platform
 from tabulate import tabulate
 from modulos.login import Login
-from modulos.apis.dog_api import abrir_imagen
+from modulos.apis.img_api import Dog_api, Cat_api
 from modulos.apis.joke_api import traducir_chiste
-from modulos.apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue
+from modulos.apis.dolar_api import Dolar_oficial, Dolar_tarjeta, Dolar_blue, Dolar_cripto
 from time import sleep
 from modulos.manipular_archivos import Gestor_datos
 
@@ -119,13 +119,14 @@ class Menu_login(Menu_base):
 class Menu_usuario(Menu_base):
     def __init__(self):
         clear()
-        self.abrir_imagen = abrir_imagen
+        self.dog = Dog_api()
+        self.cat = Cat_api()
         self.traducir_chiste = traducir_chiste
         self.menu_dolar = Menu_dolar()
     
     def opciones_menu(self):
         print("Bienvenido a pruebas api, Por favor vea las opciones")
-        ver_opciones_menu = [["1. Fotos de perros"],["2. chistes"],["3. Dolar"]]
+        ver_opciones_menu = [["1. Fotos de perros"], ["2. Fotos de gatos"], ["3. chistes"], ["4. Dolar"]]
         ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para borrar la cuenta"])
         ver_opciones_menu.append([str(len(ver_opciones_menu) + 1) + ". Para salir"])
         print(tabulate(ver_opciones_menu,tablefmt="fancy_grid"))
@@ -134,16 +135,21 @@ class Menu_usuario(Menu_base):
     def verificar_opcion(self, opcion, ver_opciones_menu):
         clear()
         if opcion == "1":
-            self.abrir_imagen()
+            self.dog.abrir_imagen()
             input("Presione enter para continuar")
             ultima_api_visitada = "Api perros"
             return ultima_api_visitada
         elif opcion == "2":
+            self.cat.abrir_imagen()
+            input("Presione enter para continuar")
+            ultima_api_visitada = "Api gatos"
+            return ultima_api_visitada
+        elif opcion == "3":
             self.traducir_chiste()
             input("Presione enter para continuar") 
             ultima_api_visitada = "Api chistes"
             return ultima_api_visitada   
-        elif opcion == "3":
+        elif opcion == "4":
             ultima_api_visitada = self.menu_dolar.ejecutar()
             return ultima_api_visitada
         elif opcion == str(len(ver_opciones_menu) - 1):
@@ -206,7 +212,7 @@ class Menu_dolar(Menu_base):
     
     def opciones_menu(self):
         print("Ingrese una de estas opciones: ")
-        ver_opciones_dolar = [["1. Dolar oficial"],["2. Dolar tarjeta"],["3. Dolar Blue"]]
+        ver_opciones_dolar = [["1. Dolar oficial"],["2. Dolar tarjeta"],["3. Dolar Blue"], ["4. Dolar cripto"]]
         ver_opciones_dolar.append([str(len(ver_opciones_dolar) + 1) + ". regresar"])
         print(tabulate(ver_opciones_dolar,tablefmt="fancy_grid"))
         return ver_opciones_dolar
@@ -231,6 +237,12 @@ class Menu_dolar(Menu_base):
                 dolar_blue.mostrar_info()
                 input("Presione enter para continuar")
                 return "Dolar blue"
+            
+            elif opcion == "4":
+                dolar_cripto = Dolar_cripto()
+                dolar_cripto.mostrar_info()
+                input("Precione enter para continuar")
+                return "Dolar cripto"
 
             elif opcion == str(len(ver_opciones_dolar)):
                 print("Regresando al menu principal")
