@@ -172,7 +172,7 @@ class Gestor_datos:
             print(f"❌ Error al borrar el usuario: {e}")
             return False
 
-    def actualizar_consultas_api(self, lista_consultas):
+    def actualizar_consultas_api(self, diccionario_consultas):
         """
         
         """
@@ -180,16 +180,11 @@ class Gestor_datos:
             with open(self.__seguimiento_consulta_apis, "r+", encoding='utf-8') as f:
                 datos = json.load(f)
 
-                # Convertimos a dict para acceso rápido
+                # Convertimos el archivo en un dict para acceso rápido
                 consultas_existentes = {item["Api"]: item for item in datos}
 
-                for entrada in lista_consultas:
-                    if isinstance(entrada, dict):
-                        api = entrada.get("Api")
-                        cantidad = entrada.get("Veces consultada", 1)
-                    else:
-                        api, cantidad = entrada
-
+                # Recorremos el diccionario recibido
+                for api, cantidad in diccionario_consultas.items():
                     if api in consultas_existentes:
                         consultas_existentes[api]["Veces consultada"] += cantidad
                     else:
@@ -198,11 +193,12 @@ class Gestor_datos:
                             "Veces consultada": cantidad
                         }
 
-                # Volvemos a lista ordenada
+                # Convertimos el dict actualizado a lista para guardar
                 datos_actualizados = list(consultas_existentes.values())
-                f.seek(0)
-                json.dump(datos_actualizados, f, indent=4)
-                f.truncate()
+                f.seek(0)                          # Posicionamos el cursor al inicio del archivo
+                json.dump(datos_actualizados, f, indent=4)  # Guardamos el nuevo contenido
+                f.truncate()                      # Eliminamos cualquier resto del contenido anterior
+                print("📦 Consultas a APIs actualizadas correctamente.")
         except Exception as e:
             print(f"❌ Error al actualizar las consultas de APIs: {e}")
     

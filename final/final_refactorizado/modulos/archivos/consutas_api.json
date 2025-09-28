@@ -1,14 +1,30 @@
 [
     {
         "Api": "Api perros",
-        "Veces consultada": 3
+        "Veces consultada": 6
     },
     {
         "Api": "Api chistes",
-        "Veces consultada": 3
+        "Veces consultada": 8
     },
     {
-        "Api": "Api dolar",
-        "Veces consultada": 3
+        "Api": "Dolar tarjeta",
+        "Veces consultada": 2
+    },
+    {
+        "Api": "Dolar blue",
+        "Veces consultada": 1
+    },
+    {
+        "Api": "Dolar oficial",
+        "Veces consultada": 1
+    },
+    {
+        "Api": "Api gatos",
+        "Veces consultada": 2
+    },
+    {
+        "Api": null,
+        "Veces consultada": 1
     }
 ]
