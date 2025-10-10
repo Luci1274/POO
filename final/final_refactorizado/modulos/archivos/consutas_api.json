@@ -5,7 +5,7 @@
     },
     {
         "Api": "Api chistes",
-        "Veces consultada": 8
+        "Veces consultada": 9
     },
     {
         "Api": "Dolar tarjeta",
@@ -21,10 +21,6 @@
     },
     {
         "Api": "Api gatos",
-        "Veces consultada": 2
-    },
-    {
-        "Api": null,
-        "Veces consultada": 1
+        "Veces consultada": 3
     }
 ]
