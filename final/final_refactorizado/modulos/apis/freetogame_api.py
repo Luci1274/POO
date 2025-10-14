@@ -66,6 +66,3 @@ class Free_to_game_api:
         for juego in juegos:
             tabla.append([juego["id"], juego["title"], juego["genre"], juego["platform"]])
         print(tabulate(tabla, headers=["ID", "Título", "Género principal", "Plataforma"], tablefmt="fancy_grid"))
-
-api = Free_to_game_api()
-api.obtener_por_id(5)
