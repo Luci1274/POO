@@ -160,13 +160,14 @@ class Menu_usuario(Menu_base):
         
         elif opcion == "5":
             ultima_api_visitada = self.menu_free_to_game.ejecutar()
+            return ultima_api_visitada
         
         elif opcion == str(len(ver_opciones_menu) - 1):
             verificar = input("Presione borrar cuenta ¿Está seguro? S/N: ").strip().upper()
             if verificar == "S" or verificar == "SI" or verificar == "YES":
                 return "Eliminar"
             else:
-                return "Salir"
+                return "Error"
                 
         elif opcion == str(len(ver_opciones_menu)):
             print("Gracias por participar en esta prueba")
