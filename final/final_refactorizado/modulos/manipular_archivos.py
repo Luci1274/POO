@@ -33,6 +33,7 @@ class Gestor_datos:
                 json.dump([], sca)
 
     def agregar_usuario(self, nombre, nombre_usuario, contraseña, veces_ingresadas=0, apis_visitadas=0, ultima_api_visitada = ""):
+        """Agrega un nuevo usuario al archivo de usuarios"""
         nuevo_usuario = {
             "nombre": nombre,
             "nombre_usuario": nombre_usuario,
@@ -57,6 +58,7 @@ class Gestor_datos:
             print(f"❌ Error al agregar el usuario: {e}")
 
     def agregar_administrador(self, nombre_usuario, contraseña):
+        """Agrega un nuevo administrador al archivo de administradores"""
         nuevo_admin = {
             "nombre_usuario": nombre_usuario,
             "contraseña": contraseña
@@ -76,6 +78,7 @@ class Gestor_datos:
             print(f"❌ Error al agregar el administrador: {e}")
 
     def actualizar_usuario(self, nombre_usuario, nuevas_visitas, nuevas_apis_visitadas, ultima_api_visitada):
+        """Actualiza los datos de un usuario específico"""
         try:
             with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
@@ -174,7 +177,7 @@ class Gestor_datos:
 
     def actualizar_consultas_api(self, diccionario_consultas):
         """
-        
+        Actualiza el archivo de seguimiento de consultas a APIs con los datos del diccionario proporcionado.
         """
         try:
             with open(self.__seguimiento_consulta_apis, "r+", encoding='utf-8') as f:
@@ -318,6 +321,10 @@ class Gestor_datos:
             return []
     
     def obtener_datos_usuarios_inactivos(self):
+        """
+        Devuelve una lista de listas con los datos de los usuarios inactivos,
+        """
+        
         try:
             tabla = []
             # Usuarios inactivos
@@ -342,6 +349,7 @@ class Gestor_datos:
             return []
     
     def obtener_consultas_apis(self):
+        """Obtiene los datos de consultas a APIs desde el archivo JSON."""
         try:
             tabla = []
             # Usuarios inactivos

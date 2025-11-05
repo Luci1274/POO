@@ -17,6 +17,7 @@ class Login:
         self.gestor = Gestor_datos()
     
     def ingresar_usuario(self):
+        """Permite al usuario iniciar sesión como usuario o administrador"""
         intentos = 3
         fallos = 0
         while True:
@@ -61,11 +62,13 @@ class Login:
                     continue
 
     def verificar_usuario(self, nombre_usuario, contraseña):
+        """Verifica las credenciales del usuario"""
         ruta_usuario = "modulos\\archivos\\usuarios.json"
         respuesta = self.gestor.verificar_credenciales(ruta_usuario, nombre_usuario, contraseña)
         return respuesta
 
     def verificar_admin(self, nombre_usuario, contraseña):
+        """Verifica las credenciales del administrador"""
         ruta_admin = "modulos\\archivos\\administradores.json" 
         respuesta = self.gestor.verificar_credenciales(ruta_admin, nombre_usuario, contraseña)
         return respuesta
@@ -80,6 +83,7 @@ class Login:
         return
 
     def registrar_usuario(self):
+        """Permite al usuario registrarse creando un nuevo usuario"""
         intentos = 3
         fallos = 0
         while True:

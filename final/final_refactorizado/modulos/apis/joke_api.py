@@ -33,6 +33,8 @@ def traducir_texto_mymemory(texto, origen="en", destino="es"):
 
 
 def traducir_chiste():
+    """Obtiene un chiste en inglés y pregunta al usuario si desea traducirlo al español"""
+    
     print("¿Desea traducir el chiste? (S/N)")
     respuesta = input("").strip().upper()
 

@@ -11,6 +11,7 @@ class Dolar_api:
         self.url = url
 
     def obtener_datos(self):
+        """Obtiene los datos de la API de dólar según la URL proporcionada"""
         try:
             respuesta = requests.get(self.url)
             respuesta.raise_for_status() # Lanza excepción si hay error HTTP
@@ -24,6 +25,7 @@ class Dolar_api:
             print(f"Error al consultar la API: {e}")
     
     def mostrar_info(self):
+        """Muestra la información obtenida en una tabla"""
         self.obtener_datos()
         mostrar = [["Dolar:", self.nombre], ["Moneda:", self.moneda], ["Compra:", self.compra], ["Venta:", self.venta]]
         print(tabulate(mostrar,tablefmt="fancy_grid"))

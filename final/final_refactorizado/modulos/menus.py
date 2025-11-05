@@ -251,7 +251,7 @@ class Menu_dolar(Menu_base):
             elif opcion == "4":
                 dolar_cripto = Dolar_cripto()
                 dolar_cripto.mostrar_info()
-                input("Precione enter para continuar")
+                input("Presione enter para continuar")
                 return "Dolar cripto"
 
             elif opcion == str(len(ver_opciones_dolar)):
@@ -261,6 +261,7 @@ class Menu_dolar(Menu_base):
             else:
                 print("Opcion incorrecta intente nuevamente")
                 input("Presione enter para continuar")
+                break
 
     def ejecutar(self):
         clear()
@@ -284,41 +285,53 @@ class Menu_free_to_game(Menu_base):
         clear()
         if opcion == "1":
             juegos_totales = self.freetogame.contar_juegos()
-            print(f"La cantidad de IDs es de: {juegos_totales}\n")
+            if juegos_totales == 0 or None:
+                input("Presione enter para continuar")
+                return
+            else:
+                print(f"La cantidad de IDs es de: {juegos_totales}\n")
             try:
                 cantidad = int(input("Ingrese la cantidad de juegos a buscar: ").strip())
                 if cantidad >= 1 and cantidad <= juegos_totales:
                     self.freetogame.obtener_todos(cantidad)
-                    input("Precione enter para continuar")
+                    input("Presione enter para continuar")
                     return
                 else:
                     print("El numero debe de ser mayor a 0")
-                    input("Precione enter para continuar") 
+                    input("Presione enter para continuar") 
                     return   
             except:
                 print("Se debe de ingresar un numero")
-                input("Precione enter para continuar")
+                input("Presione enter para continuar")
                 return
                     
         elif opcion == "2":
             clear()
             juegos_totales = self.freetogame.contar_juegos()
-            print(f"La cantidad de IDs es de: {juegos_totales}\n")
+            if juegos_totales == 0 or None:
+                print("Presione enter para continuar")
+                return
+            else:
+                print(f"La cantidad de IDs es de: {juegos_totales}\n")
             try:
                 ID = int(input("Ingrese un ID: ").strip())
                 if ID >= 1 and ID <= juegos_totales:
                     self.freetogame.obtener_por_id(ID)
-                    input("Precione enter para continuar")
+                    input("Presione enter para continuar")
+                    return
                 else:
                     print(f"El ID debe de ser mayor a 0 y menor a {juegos_totales}")
-                    input("Precione enter para continuar")
+                    input("Presione enter para continuar")
+                    return
             except:
                 print("Se debe de ingresar un numero")
-                input("Precione enter para continuar")
+                input("Presione enter para continuar")
+                return
 
         else:
             print("Opcion incorrecta intente nuevamente")
             input("Presione enter para continuar")
+            return
             
             
     def ejecutar(self):

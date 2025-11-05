@@ -9,10 +9,12 @@ class Apis_imagenes:
         raise NotImplementedError("Este método debe ser implementado en la clase hija.")
 
     def abrir_buscador(self, image_url):
+        """Abre la URL de la imagen en el navegador web predeterminado"""
         print("Abriendo el buscador...")
         webbrowser.open(image_url)
 
     def abrir_imagen(self):
+        """Obtiene la imagen y pregunta al usuario si desea abrirla en el navegador"""
         image_url = self.obtener_imagen()
         try:
             if image_url:
@@ -28,6 +30,7 @@ class Apis_imagenes:
             print(f"Error al Mostrar la foto")
 
 class Dog_api(Apis_imagenes):
+    """Clase para obtener imágenes de perros desde la API Dog"""
     def obtener_imagen(self):
         try:
             url = "https://dog.ceo/api/breeds/image/random"
@@ -41,6 +44,7 @@ class Dog_api(Apis_imagenes):
             print(f"Error al consultar la API")
 
 class Cat_api(Apis_imagenes):
+    """Clase para obtener imágenes de gatos desde la API The Cat API"""
     def obtener_imagen(self):
         try:
             url = "https://api.thecatapi.com/v1/images/search"
