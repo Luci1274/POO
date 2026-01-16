@@ -27,8 +27,24 @@
         "nombre": "lu",
         "nombre_usuario": "eze",
         "contrase\u00f1a": "1274",
-        "veces_ingresadas": 14,
-        "apis_visitadas": 34,
-        "ultima_api_visitada": "Free to Games Api"
+        "veces_ingresadas": 17,
+        "apis_visitadas": 45,
+        "ultima_api_visitada": "ninguna"
+    },
+    {
+        "nombre": "juAB",
+        "nombre_usuario": "Luqu,-",
+        "contrase\u00f1a": "\u00f1i\u00f1o",
+        "veces_ingresadas": 1,
+        "apis_visitadas": 0,
+        "ultima_api_visitada": "ninguna"
+    },
+    {
+        "nombre": "franco",
+        "nombre_usuario": "f",
+        "contrase\u00f1a": "1",
+        "veces_ingresadas": 0,
+        "apis_visitadas": 0,
+        "ultima_api_visitada": ""
     }
 ]

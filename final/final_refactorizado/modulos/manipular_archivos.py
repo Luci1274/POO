@@ -46,16 +46,16 @@ class Gestor_datos:
             with open(self.__archivo_usuarios, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
                 if self.verificar_nombre_usuario(self.__archivo_usuarios, nombre_usuario):
-                    print(f"⚠️ El nombre de usuario '{nombre_usuario}' ya existe. No se agregó.")
+                    print(f" El nombre de usuario '{nombre_usuario}' ya existe. No se agregó.")
                     return False
                 datos.append(nuevo_usuario)
                 f.seek(0)
                 json.dump(datos, f, indent=4)
                 f.truncate()
-                print(f"✅ Usuario '{nombre_usuario}' agregado correctamente.")
+                print(f" Usuario '{nombre_usuario}' agregado correctamente.")
                 return True
         except Exception as e:
-            print(f"❌ Error al agregar el usuario: {e}")
+            print(f" Error al agregar el usuario: {e}")
 
     def agregar_administrador(self, nombre_usuario, contraseña):
         """Agrega un nuevo administrador al archivo de administradores"""
@@ -67,15 +67,15 @@ class Gestor_datos:
             with open(self.__archivo_admins, 'r+', encoding='utf-8') as f:
                 datos = json.load(f)
                 if self.verificar_nombre_usuario(self.__archivo_admins, nombre_usuario):
-                    print(f"⚠️ El administrador '{nombre_usuario}' ya existe. No se agregó.")
+                    print(f" El administrador '{nombre_usuario}' ya existe. No se agregó.")
                     return
                 datos.append(nuevo_admin)
                 f.seek(0)
                 json.dump(datos, f, indent=4)
                 f.truncate()
-                print(f"✅ Administrador '{nombre_usuario}' agregado correctamente.")
+                print(f" Administrador '{nombre_usuario}' agregado correctamente.")
         except Exception as e:
-            print(f"❌ Error al agregar el administrador: {e}")
+            print(f" Error al agregar el administrador: {e}")
 
     def actualizar_usuario(self, nombre_usuario, nuevas_visitas, nuevas_apis_visitadas, ultima_api_visitada):
         """Actualiza los datos de un usuario específico"""
@@ -96,11 +96,11 @@ class Gestor_datos:
                     f.seek(0)
                     json.dump(datos, f, indent=4)
                     f.truncate()
-                    print(f"✅ Usuario '{nombre_usuario}' actualizado correctamente.")
+                    print(f" Usuario '{nombre_usuario}' actualizado correctamente.")
                 else:
-                    print(f"⚠️ Usuario '{nombre_usuario}' no encontrado.")
+                    print(f" Usuario '{nombre_usuario}' no encontrado.")
         except Exception as e:
-            print(f"❌ Error al actualizar el usuario: {e}")
+            print(f" Error al actualizar el usuario: {e}")
             
     def modificar_contraseña_usuario(self, nombre_usuario, nueva_contraseña):
         "Esta funcion modifica la contraseña del ususario"
@@ -120,11 +120,11 @@ class Gestor_datos:
                     f.seek(0)
                     json.dump(datos, f, indent=4)
                     f.truncate()
-                    print(f"✅ Contraseña actualizada correctamente.")
+                    print(f" Contraseña actualizada correctamente.")
                 else:
-                    print(f"⚠️ Usuario '{nombre_usuario}' no encontrado.")
+                    print(f" Usuario '{nombre_usuario}' no encontrado.")
         except Exception as e:
-            print(f"❌ Error al actualizar el usuario: {e}")
+            print(f" Error al actualizar el usuario: {e}")
 
     def borrar_usuario(self, nombre_usuario, motivo):
         """
@@ -143,7 +143,7 @@ class Gestor_datos:
                         break
 
                 if not usuario_encontrado:
-                    print(f"⚠️ Usuario '{nombre_usuario}' no encontrado.")
+                    print(f" Usuario '{nombre_usuario}' no encontrado.")
                     return False
 
                 # Eliminar del archivo original
@@ -172,7 +172,7 @@ class Gestor_datos:
             return True
 
         except Exception as e:
-            print(f"❌ Error al borrar el usuario: {e}")
+            print(f" Error al borrar el usuario: {e}")
             return False
 
     def actualizar_consultas_api(self, diccionario_consultas):
@@ -201,9 +201,9 @@ class Gestor_datos:
                 f.seek(0)                          # Posicionamos el cursor al inicio del archivo
                 json.dump(datos_actualizados, f, indent=4)  # Guardamos el nuevo contenido
                 f.truncate()                      # Eliminamos cualquier resto del contenido anterior
-                print("📦 Consultas a APIs actualizadas correctamente.")
+                print(" Consultas a APIs actualizadas correctamente.")
         except Exception as e:
-            print(f"❌ Error al actualizar las consultas de APIs: {e}")
+            print(f" Error al actualizar las consultas de APIs: {e}")
     
     def verificar_nombre_usuario(self, ruta_archivo, nombre_usuario):
         """
@@ -215,13 +215,13 @@ class Gestor_datos:
                 datos = json.load(f)
                 return any(item.get("nombre_usuario") == nombre_usuario for item in datos)
         except FileNotFoundError:
-            print(f"⚠️ El archivo '{ruta_archivo}' no existe.")
+            print(f" El archivo '{ruta_archivo}' no existe.")
             return False
         except json.JSONDecodeError:
-            print(f"⚠️ El archivo '{ruta_archivo}' no contiene un JSON válido.")
+            print(f" El archivo '{ruta_archivo}' no contiene un JSON válido.")
             return False
         except Exception as e:
-            print(f"❌ Error al verificar el nombre de usuario: {e}")
+            print(f" Error al verificar el nombre de usuario: {e}")
             return False
     
     def verificar_credenciales(self, ruta_archivo, nombre_usuario, contraseña):
@@ -237,13 +237,13 @@ class Gestor_datos:
                         return item.get("contraseña") == contraseña
                 return False  # Usuario no encontrado
         except FileNotFoundError:
-            print(f"⚠️ El archivo '{ruta_archivo}' no existe.")
+            print(f" El archivo '{ruta_archivo}' no existe.")
             return False
         except json.JSONDecodeError:
-            print(f"⚠️ El archivo '{ruta_archivo}' no contiene un JSON válido.")
+            print(f" El archivo '{ruta_archivo}' no contiene un JSON válido.")
             return False
         except Exception as e:
-            print(f"❌ Error al verificar credenciales: {e}")
+            print(f" Error al verificar credenciales: {e}")
             return False
         
     def obtener_datos_usuarios(self):
@@ -258,7 +258,7 @@ class Gestor_datos:
             with open(self.__archivo_usuarios, 'r', encoding='utf-8') as A:
                 datos_activos = json.load(A)
                 if not datos_activos:
-                    print("⚠️ No hay usuarios activos registrados.")
+                    print(" No hay usuarios activos registrados.")
                 else:
                     for usuario_activo in datos_activos:
                         fila = [
@@ -274,7 +274,7 @@ class Gestor_datos:
             with open(self.__usuarios_borrados, "r", encoding='utf-8') as I:
                 datos_inactivos = json.load(I)
                 if not datos_inactivos:
-                    print("⚠️ No hay usuarios inactivos registrados.")
+                    print(" No hay usuarios inactivos registrados.")
                 else:
                     for usuario_inactivo in datos_inactivos:
                         fila = [
@@ -286,10 +286,10 @@ class Gestor_datos:
                         ]
                         tabla.append(fila)
 
-            return tabla  # 👉 devolvemos los datos combinados
+            return tabla
 
         except Exception as e:
-            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            print(f" Error al obtener los datos de usuarios: {e}")
             return []
     
     def obtener_datos_usuarios_activos(self):
@@ -304,7 +304,7 @@ class Gestor_datos:
             with open(self.__archivo_usuarios, 'r', encoding='utf-8') as A:
                 datos_activos = json.load(A)
                 if not datos_activos:
-                    print("⚠️ No hay usuarios activos registrados.")
+                    print(" No hay usuarios activos registrados.")
                 else:
                     for usuario_activo in datos_activos:
                         fila = [
@@ -315,9 +315,9 @@ class Gestor_datos:
                             usuario_activo.get("ultima_api_visitada", "")
                         ]
                         tabla.append(fila)
-            return tabla  # 👉 devolvemos los datos
+            return tabla  
         except Exception as e:
-            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            print(f" Error al obtener los datos de usuarios: {e}")
             return []
     
     def obtener_datos_usuarios_inactivos(self):
@@ -331,7 +331,7 @@ class Gestor_datos:
             with open(self.__usuarios_borrados, "r", encoding='utf-8') as I:
                 datos_inactivos = json.load(I)
                 if not datos_inactivos:
-                    print("⚠️ No hay usuarios inactivos registrados.")
+                    print(" No hay usuarios inactivos registrados.")
                 else:
                     for usuario_inactivo in datos_inactivos:
                         fila = [
@@ -342,10 +342,10 @@ class Gestor_datos:
                             usuario_inactivo.get("ultima_api_visitada", "")
                         ]
                         tabla.append(fila)
-            return tabla  # 👉 devolvemos los datos
+            return tabla 
 
         except Exception as e:
-            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            print(f" Error al obtener los datos de usuarios: {e}")
             return []
     
     def obtener_consultas_apis(self):
@@ -356,7 +356,7 @@ class Gestor_datos:
             with open(self.__seguimiento_consulta_apis, "r", encoding='utf-8') as sca:
                 datos_apis = json.load(sca)
                 if not datos_apis:
-                    print("⚠️ No hay usuarios inactivos registrados.")
+                    print(" No hay usuarios inactivos registrados.")
                 else:
                     for api in datos_apis:
                         fila = [
@@ -364,8 +364,8 @@ class Gestor_datos:
                             api.get("Veces consultada", 0)
                         ]
                         tabla.append(fila)
-            return tabla  # 👉 devolvemos los datos
+            return tabla 
 
         except Exception as e:
-            print(f"❌ Error al obtener los datos de usuarios: {e}")
+            print(f" Error al obtener los datos de usuarios: {e}")
             return []

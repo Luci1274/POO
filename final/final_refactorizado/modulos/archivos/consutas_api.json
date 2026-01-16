@@ -1,15 +1,15 @@
 [
     {
         "Api": "Api perros",
-        "Veces consultada": 6
+        "Veces consultada": 7
     },
     {
         "Api": "Api chistes",
-        "Veces consultada": 9
+        "Veces consultada": 10
     },
     {
         "Api": "Dolar tarjeta",
-        "Veces consultada": 2
+        "Veces consultada": 3
     },
     {
         "Api": "Dolar blue",
@@ -21,10 +21,18 @@
     },
     {
         "Api": "Api gatos",
-        "Veces consultada": 3
+        "Veces consultada": 6
     },
     {
         "Api": "Free to Games Api",
-        "Veces consultada": 2
+        "Veces consultada": 3
+    },
+    {
+        "Api": "Dolar cripto",
+        "Veces consultada": 1
+    },
+    {
+        "Api": null,
+        "Veces consultada": 3
     }
 ]

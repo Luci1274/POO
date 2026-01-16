@@ -335,14 +335,13 @@ class Menu_free_to_game(Menu_base):
             
             
     def ejecutar(self):
-        while True:
-            clear()
-            ver_opciones_menu = self.opciones_menu()
-            opcion = self.elegir_opcion()
-            if opcion == str(len(ver_opciones_menu)):
-                return "Free to Games Api"
-            else:
-                self.verificar_opcion(opcion, ver_opciones_menu)
+        clear()
+        ver_opciones_menu = self.opciones_menu()
+        opcion = self.elegir_opcion()
+        if opcion == str(len(ver_opciones_menu)):
+            return "Free to Games Api"
+        else:
+            self.verificar_opcion(opcion, ver_opciones_menu)
 
 class Menu_administrador(Menu_base):
     def __init__(self):
