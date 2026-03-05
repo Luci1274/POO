@@ -1,0 +1,38 @@
+[
+    {
+        "Api": "Api perros",
+        "Veces consultada": 7
+    },
+    {
+        "Api": "Api chistes",
+        "Veces consultada": 10
+    },
+    {
+        "Api": "Dolar tarjeta",
+        "Veces consultada": 3
+    },
+    {
+        "Api": "Dolar blue",
+        "Veces consultada": 1
+    },
+    {
+        "Api": "Dolar oficial",
+        "Veces consultada": 1
+    },
+    {
+        "Api": "Api gatos",
+        "Veces consultada": 6
+    },
+    {
+        "Api": "Free to Games Api",
+        "Veces consultada": 3
+    },
+    {
+        "Api": "Dolar cripto",
+        "Veces consultada": 1
+    },
+    {
+        "Api": null,
+        "Veces consultada": 3
+    }
+]

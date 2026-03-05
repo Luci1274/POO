@@ -1,0 +1,40 @@
+nueva_estructura/
+├── backend/
+│   ├── app.py (Flask)
+│   ├── config.py (está vacio pero deberia de estar la configuración BD)
+│   ├── requirements.txt
+│   ├── modulos/
+│   │   ├── clases_usuarios.py (está la interactividad del usuario y del admin)
+│   │   ├── apis/
+│   │       ├── dolar_api.py (llamado a dolar API y devolucion de datos en terminal con tablas)
+│   │       ├── freetogame_api.py (llamado a FreetogameAPI junto a devolucion de datos en terminal con tablas)
+│   │       ├── img_api.py (dentro están DogAPI y CatAPI, contiene la interactividad, junto a devolucion en terminal junto a varios prints)
+│   │       └── joke_api.py (JokeAPI da chistes en ingles por ende utilizo mymemoryAPI para traducirlos en español, el arcchivo contiene la interactividad y la devolucion mediante prints)
+│   │   ├── clases_usuarios.py (interactividad del usuario con los menus de la terminal)
+│   │   ├── clase_login.py (logica para logearse en el sistema version terminal)
+│   │   ├── manipular_archivos (es una clase que manipula archivos en un json, pero tengo que cambiar a una DB)
+│   └── rutas/ (los archivos están vacios)
+│       ├── auth.py (login/registro)
+│       ├── usuarios.py (perfil, datos)
+│       ├── admin.py (panel admin)
+│       └── apis.py (endpoints de APIs)
+│
+├── frontend/
+│   ├── templates/
+│   │   ├── login.html
+│   │   ├── pagina_principal.html (pisiblemente va a ser un about del programa)
+│   │   ├── admin.html
+│   │   ├── perros.html (una pagina para DogAPI que muestra imagenes random de perros)
+│   │   ├── dolar.html (una pagina para DolarAPI que muestra datos de los distintos tipos de dolar en ARG)
+│   │   ├── gatos.html (lo mismo que DogAPI pero con imagenes de gatos, la API se llama CatAPI)
+│   │   ├── jokes.html (una pagina para JokeAPI es una api de chistes )
+│   │   └── freetogame.html (una pagina para FreetogameAPI es una API que muestra datos de juegos gratis)
+│   └── static/
+│       ├── css/ (pueden haber más archivos a futuro capaz 1 por hoja pero depende)
+|       |   ├── barra_lateral.css (la barra lateral va a tener su propio css por organizacion)
+|       |   └── estilos.css
+│       └── js/ (pueden haber más archivos a futuro capaz 1 por hoja pero depende)
+|           ├── barra_lateral.js (la barra lateral de navegacion va a tener su propio js por organizacion) 
+|           └── interactividad.js
+│
+└── requirements.txt
