@@ -21,21 +21,15 @@ class Dolar_oficial(Dolar_api):
 
     
     def obtener_datos(self):
-        super().obtener_datos()
+        return super().obtener_datos()
 
-    def mostrar_info(self):
-        super().mostrar_info()
 
 class Dolar_tarjeta(Dolar_api):
     def __init__(self, url="https://dolarapi.com/v1/dolares/tarjeta"):
         super().__init__(url)
     
     def obtener_datos(self):
-        super().obtener_datos()
-        
-        
-    def mostrar_info(self):
-        super().mostrar_info()
+        return super().obtener_datos()
         
 
 class Dolar_blue(Dolar_api):
@@ -43,18 +37,12 @@ class Dolar_blue(Dolar_api):
         super().__init__(url)
 
     def obtener_datos(self):
-        super().obtener_datos()
+        return super().obtener_datos()
         
-        
-    def mostrar_info(self):
-        super().mostrar_info()
 
 class Dolar_cripto(Dolar_api):
     def __init__(self, url="https://dolarapi.com/v1/dolares/cripto"):
         super().__init__(url)
     
     def obtener_datos(self):
-        super().obtener_datos()
-    
-    def mostrar_info(self):
-        super().mostrar_info()
+        return super().obtener_datos()

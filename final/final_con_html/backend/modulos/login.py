@@ -1,119 +1,161 @@
-import sys
-from tabulate import tabulate
-import os
-import platform
 from modulos.manipular_archivos import Gestor_datos
 
-def clear():
-    sistema = platform.system()
-    if sistema == "Windows":
-        os.system("cls")
-    else:
-        os.system("clear")
-    print("-" * 50)
 
 class Login:
-    def __init__(self):
-        self.gestor = Gestor_datos()
+    """
+    Clase de autenticación para usuarios y administradores.
     
-    def ingresar_usuario(self):
-        """Permite al usuario iniciar sesión como usuario o administrador"""
-        intentos = 3
-        fallos = 0
-        while True:
-            clear()
-            print("Para iniciar sesion por favor ingrese el nombre de usuario y contraseña")
-            print(f"Tienes {intentos} intentos")
-            nombre_usuario = input("Nombre de usuario: ").strip()
-            contraseña = input("Contraseña: ").strip()
-            if len(nombre_usuario) == 0 or len(contraseña) == 0:
-                print("Rellene los campos")
-                input("Presione enter para continuar")
-                fallos += 1
-                intentos -= 1
-                if fallos == 3:
-                    print("Demasiados fallos, volviendo al menu")
-                    break
-                else:
-                    continue
-            elif nombre_usuario == "...." and contraseña == "fe":
-                print("Ingresando en modo administrador")
-                input("Presione enter para continuar")
-                tipo = "administrador"
-                return nombre_usuario,tipo
-            elif self.verificar_admin(nombre_usuario, contraseña) == True: 
-                print("Inicio exitoso bienvenido señor")
-                input("Presione enter para continuar")
-                tipo = "administrador"
-                return nombre_usuario,tipo
-            elif self.verificar_usuario(nombre_usuario, contraseña) == True: 
-                print("Inicio exitoso")
-                tipo = "usuario"
-                return nombre_usuario, tipo
-            else:
-                print("Usuario o contraseña inocrrecta, por favor intente nuevamente")
-                input("Presione enter para continuar")
-                fallos += 1
-                intentos -= 1
-                if fallos == 3:
-                    print("Demasiados fallos, volviendo al menu")
-                    break
-                else:
-                    continue
+    Diseñada para ser utilizada con Flask: no realiza ninguna interacción con consola (input/print).
+    Las validaciones y el manejo de intentos se delegan a las rutas y sesiones de Flask.
+    """
 
-    def verificar_usuario(self, nombre_usuario, contraseña):
-        """Verifica las credenciales del usuario"""
+    def __init__(self):
+        """Inicializa la clase con una instancia del gestor de datos."""
+        self.gestor = Gestor_datos()
+
+    def verificar_credenciales(self, nombre_usuario, contraseña):
+        """
+        Verifica las credenciales de un usuario tanto en la base de datos de usuarios como de administradores.
+
+        Args:
+            nombre_usuario (str): Nombre de usuario a verificar.
+            contraseña (str): Contraseña a verificar.
+
+        Returns:
+            dict: Un diccionario con estructura {'ok': bool, 'tipo': str, 'usuario': str}
+                  - 'ok': True si las credenciales son válidas, False en caso contrario.
+                  - 'tipo': 'administrador' o 'usuario' si ok es True, None si es False.
+                  - 'usuario': nombre del usuario si ok es True, None si es False.
+
+        Raises:
+            ValueError: Si los campos están vacíos.
+        """
+        # Validar que los campos no estén vacíos
+        if not nombre_usuario or not contraseña:
+            raise ValueError("El usuario y la contraseña no pueden estar vacíos.")
+
+        # Caso especial: usuario maestro para administrador (credenciales hardcodeadas)
+        if nombre_usuario == "...." and contraseña == "fe":
+            return {
+                "ok": True,
+                "tipo": "administrador",
+                "usuario": nombre_usuario
+            }
+
+        # Verificar si es un administrador válido
+        if self._verificar_admin(nombre_usuario, contraseña):
+            return {
+                "ok": True,
+                "tipo": "administrador",
+                "usuario": nombre_usuario
+            }
+
+        # Verificar si es un usuario válido
+        if self._verificar_usuario(nombre_usuario, contraseña):
+            return {
+                "ok": True,
+                "tipo": "usuario",
+                "usuario": nombre_usuario
+            }
+
+        # Credenciales inválidas
+        return {
+            "ok": False,
+            "tipo": None,
+            "usuario": None
+        }
+
+    def _verificar_usuario(self, nombre_usuario, contraseña):
+        """
+        Verifica las credenciales contra la base de datos de usuarios.
+
+        Args:
+            nombre_usuario (str): Nombre de usuario.
+            contraseña (str): Contraseña del usuario.
+
+        Returns:
+            bool: True si las credenciales son válidas, False en caso contrario.
+        """
         ruta_usuario = "modulos\\archivos\\usuarios.json"
-        respuesta = self.gestor.verificar_credenciales(ruta_usuario, nombre_usuario, contraseña)
-        return respuesta
+        return self.gestor.verificar_credenciales(ruta_usuario, nombre_usuario, contraseña)
 
-    def verificar_admin(self, nombre_usuario, contraseña):
-        """Verifica las credenciales del administrador"""
-        ruta_admin = "modulos\\archivos\\administradores.json" 
-        respuesta = self.gestor.verificar_credenciales(ruta_admin, nombre_usuario, contraseña)
-        return respuesta
+    def _verificar_admin(self, nombre_usuario, contraseña):
+        """
+        Verifica las credenciales contra la base de datos de administradores.
 
-    def cambiar_contraseña(self):
-        "Esta funcion llama a la funcion de la clase Manipular_datos para cambiar la contraseña del usuario"
-        clear()
-        nombre_usuario = input("ingrese el nombre del usuario: ").strip()
-        nueva_contraseña = input("Ingrese la nueva contraseña: ").strip()
-        self.gestor.modificar_contraseña_usuario(nombre_usuario, nueva_contraseña)
-        input("Presione enter para continuar")
-        return
+        Args:
+            nombre_usuario (str): Nombre de usuario administrador.
+            contraseña (str): Contraseña del administrador.
 
-    def registrar_usuario(self):
-        """Permite al usuario registrarse creando un nuevo usuario"""
-        intentos = 3
-        fallos = 0
-        while True:
-            clear()
-            print("Por favor llene los siguientes espacios para crear un usuario")
-            print(f"Tienes {intentos} intentos")
-            nombre = input("Nombre de real: ").strip()
-            nombre_usuario = input("Nombre de usuario: ")
-            contraseña = input("Contraseña: ").strip()    
-            if len(nombre) == 0 or len(nombre_usuario) == 0 or len(contraseña) == 0:
-                print("Rellene los campos")
-                input("Presione enter para continuar")
-                fallos += 1
-                intentos -= 1
-                if fallos == 3:
-                    print("Demasiados fallos, volviendo al menu")
-                    nombre_usuario = None
-                    tipo = None
-                    break
-                else:
-                    continue
-            elif self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña) == True:
-                input("Presione enter para continuar")
-                return 
-            else:
-                fallos += 1
-                intentos -= 1
-                input("Presione enter para continuar")
-                if fallos == 3:
-                    print("Demasiados fallos, saliendo del registro")
-                    break
-                else:
-                    continue
+        Returns:
+            bool: True si las credenciales son válidas, False en caso contrario.
+        """
+        ruta_admin = "modulos\\archivos\\administradores.json"
+        return self.gestor.verificar_credenciales(ruta_admin, nombre_usuario, contraseña)
+
+    def registrar_usuario(self, nombre, nombre_usuario, contraseña):
+        """
+        Registra un nuevo usuario en la base de datos.
+
+        Args:
+            nombre (str): Nombre real del usuario.
+            nombre_usuario (str): Nombre de usuario único.
+            contraseña (str): Contraseña del usuario.
+
+        Returns:
+            dict: {'ok': bool, 'mensaje': str}
+
+        Raises:
+            ValueError: Si alguno de los campos está vacío.
+        """
+        # Validar que ninguno de los campos esté vacío
+        if not nombre or not nombre_usuario or not contraseña:
+            raise ValueError("Todos los campos (nombre, usuario, contraseña) son obligatorios.")
+
+        # Intentar añadir el usuario a través del gestor de datos
+        resultado = self.gestor.agregar_usuario(nombre, nombre_usuario, contraseña)
+
+        # Devolver un diccionario indicando el resultado
+        if resultado:
+            return {
+                "ok": True,
+                "mensaje": f"Usuario '{nombre_usuario}' registrado exitosamente."
+            }
+        else:
+            return {
+                "ok": False,
+                "mensaje": "El usuario ya existe o hubo un error al registrarlo."
+            }
+
+    def cambiar_contraseña(self, nombre_usuario, nueva_contraseña):
+        """
+        Cambia la contraseña de un usuario existente.
+
+        Args:
+            nombre_usuario (str): Nombre del usuario cuya contraseña se va a cambiar.
+            nueva_contraseña (str): La nueva contraseña.
+
+        Returns:
+            dict: {'ok': bool, 'mensaje': str}
+
+        Raises:
+            ValueError: Si el nombre de usuario o la contraseña están vacíos.
+        """
+        # Validar que los campos no estén vacíos
+        if not nombre_usuario or not nueva_contraseña:
+            raise ValueError("El usuario y la nueva contraseña no pueden estar vacíos.")
+
+        # Llamar al método del gestor para modificar la contraseña
+        resultado = self.gestor.modificar_contraseña_usuario(nombre_usuario, nueva_contraseña)
+
+        # Devolver el resultado
+        if resultado:
+            return {
+                "ok": True,
+                "mensaje": f"Contraseña del usuario '{nombre_usuario}' actualizada exitosamente."
+            }
+        else:
+            return {
+                "ok": False,
+                "mensaje": "No se pudo actualizar la contraseña. Verifica el usuario."
+            }

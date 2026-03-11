@@ -36,5 +36,3 @@ class Cat_api(Apis_imagenes):
             return data[0]["url"]
         except requests.RequestException as exc:
             raise RuntimeError("error al consultar la API de gatos") from exc
-
-

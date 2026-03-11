@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/juegos.css">
+    <link rel="stylesheet" href="/static/css/barra_lateral.css">
+    <title>Información sobre juegos gratuitos</title>
+</head>
+<body>
+    <div class="juegos-container">
+        <h1>Juegos Free-to-Play</h1>
+        
+        <!-- Buscador por ID -->
+        <div class="buscador-seccion">
+            <div class="buscador">
+                <input 
+                    type="number" 
+                    id="input-id" 
+                    placeholder="Ingresa el ID del juego (1-400)" 
+                    min="1" 
+                    max="400"
+                >
+                <button id="btn-buscar">Buscar</button>
+                <span id="id-maximo" class="id-info">ID máximo: <span id="max-id">--</span></span>
+            </div>
+        </div>
+
+        <!-- Contenedor de carrusel (se muestra por defecto) -->
+        <div id="carrusel-container" class="carrusel-seccion">
+            <h2>Juegos Destacados</h2>
+            <div id="carrusel" class="carrusel">
+                <!-- Los juegos aparecen aquí -->
+            </div>
+            <p id="carrusel-info" class="info-rotacion">Se actualizan automáticamente cada 30 segundos</p>
+        </div>
+
+        <!-- Contenedor de detalles (oculto por defecto) -->
+        <div id="detalle-container" class="detalle-seccion" style="display: none;">
+            <button id="btn-volver" class="btn-volver">← Volver a destacados</button>
+            <div id="detalle-juego" class="detalle-juego">
+                <!-- Los detalles del juego aparecen aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/barra_lateral.js"></script>
+    <script src="/static/js/juegos.js"></script>
+</body>
+</html>

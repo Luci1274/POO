@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/dolar.css">
+    <link rel="stylesheet" href="/static/css/barra_lateral.css">
+    <title>Métricas Dólar</title>
+</head>
+<body>
+    <!-- Contenedor principal -->
+    <div class="dolar-container">
+        <h1>Cotizaciones del Dólar</h1>
+        
+        <!-- Cajas de selección del tipo de dólar -->
+        <div class="selector-dolares">
+            <button class="dolar-btn active" data-tipo="oficial">
+                <span class="dolar-tipo">Oficial</span>
+            </button>
+            <button class="dolar-btn" data-tipo="tarjeta">
+                <span class="dolar-tipo">Tarjeta</span>
+            </button>
+            <button class="dolar-btn" data-tipo="blue">
+                <span class="dolar-tipo">Blue</span>
+            </button>
+            <button class="dolar-btn" data-tipo="cripto">
+                <span class="dolar-tipo">Cripto</span>
+            </button>
+        </div>
+
+        <!-- Contenedor de métricas/datos -->
+        <div class="metricas-container">
+            <div id="metricas" class="metricas">
+                <p class="cargando">Cargando datos...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/dolar.js"></script>
+    <script src="/static/js/barra_lateral.js"></script>
+</body>
+</html>
